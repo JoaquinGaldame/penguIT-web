@@ -15,7 +15,7 @@ export const authApi = createApi({
     login: builder.mutation<LoginResponse, LoginRequest>({
       async queryFn(credentials) {
         await new Promise((resolve) => {
-          window.setTimeout(resolve, 700);
+          window.setTimeout(resolve, 450);
         });
 
         if (

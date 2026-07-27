@@ -21,7 +21,12 @@ export function MainLayout() {
   const sidebarWidth = isCollapsed ? SIDEBAR_COLLAPSED_WIDTH : SIDEBAR_WIDTH;
 
   return (
-    <Box sx={{ minHeight: '100vh' }}>
+    <Box
+      sx={{
+        bgcolor: 'background.default',
+        minHeight: '100vh',
+      }}
+    >
       <Header
         collapsed={isCollapsed}
         onOpenMobile={openMobile}
