@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { LoginPage } from '../../features/auth';
 import { DashboardPage } from '../../features/dashboard';
+import { OrdersPage } from '../../features/orders';
 import { AuthLayout, MainLayout } from '../../layouts';
 import { ComingSoonPage } from '../../shared/pages/ComingSoonPage';
 import { GuestRoute } from './GuestRoute';
@@ -10,7 +11,7 @@ import { paths } from './paths';
 import { ProtectedRoute } from './ProtectedRoute';
 
 const upcomingNavigationItems = navigationConfig.filter(
-  (item) => item.path !== paths.dashboard,
+  (item) => item.path !== paths.dashboard && item.path !== paths.orders,
 );
 
 export function AppRouter() {
@@ -26,6 +27,7 @@ export function AppRouter() {
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path={paths.dashboard} element={<DashboardPage />} />
+            <Route path={paths.orders} element={<OrdersPage />} />
 
             {upcomingNavigationItems.map((item) => (
               <Route
