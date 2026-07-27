@@ -4,7 +4,10 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { LoginPage } from '../../features/auth';
 import { DashboardPage } from '../../features/dashboard';
 import { OrdersPage } from '../../features/orders';
-import { CreateProductPage } from '../../features/products';
+import {
+  CreateProductPage,
+  ProductListPage,
+} from '../../features/products';
 
 import { AuthLayout, MainLayout } from '../../layouts';
 import { ComingSoonPage } from '../../shared/pages/ComingSoonPage';
@@ -17,6 +20,7 @@ const upcomingNavigationItems = getNavigationLeaves().filter(
   (item) =>
     item.path !== paths.dashboard &&
     item.path !== paths.orders &&
+    item.path !== paths.inventoryProducts &&
     item.path !== paths.inventoryProductNew,
 );
 
@@ -41,6 +45,10 @@ export function AppRouter() {
             <Route
               path={paths.inventoryProductNew}
               element={<CreateProductPage />}
+            />
+            <Route
+              path={paths.inventoryProducts}
+              element={<ProductListPage />}
             />
             <Route
               path={paths.administration}

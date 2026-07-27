@@ -31,6 +31,7 @@ export interface Product
   extends Omit<CreateProductRequest, 'image'> {
   id: string;
   imageUrl?: string;
+  currentStock?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -48,8 +49,28 @@ export type ProductStatusFilter =
   | 'active'
   | 'inactive';
 
+export type ProductStockStatus =
+  | 'critical'
+  | 'low'
+  | 'normal'
+  | 'untracked';
+
 export interface ProductsState {
   search: string;
   category: ProductCategory | 'all';
   status: ProductStatusFilter;
 }
+
+export const PRODUCT_CATEGORY_LABELS: Record<ProductCategory, string> = {
+  'main-course': 'Platos principales',
+  beverage: 'Bebidas',
+  dessert: 'Postres',
+  combo: 'Combos',
+};
+
+export const SALE_UNIT_LABELS: Record<SaleUnit, string> = {
+  unit: 'un.',
+  portion: 'porciones',
+  bottle: 'botellas',
+  kilogram: 'kg',
+};

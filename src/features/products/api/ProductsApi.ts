@@ -4,6 +4,7 @@ import {
 } from '@reduxjs/toolkit/query/react';
 
 import type { RootState } from '../../../app/store/store';
+import { productsMock } from '../data/productsMock';
 import type {
   CreateProductRequest,
   CreateProductResponse,
@@ -87,10 +88,17 @@ export const productsApi = createApi({
 
   endpoints: (builder) => ({
     getProducts: builder.query<GetProductsResponse, void>({
-      query: () => ({
-        url: '/products',
-        method: 'GET',
-      }),
+      async queryFn() {
+        await new Promise((resolve) => {
+          window.setTimeout(resolve, 450);
+        });
+
+        return {
+          data: {
+            products: productsMock,
+          },
+        };
+      },
 
       providesTags: (result) =>
         result
