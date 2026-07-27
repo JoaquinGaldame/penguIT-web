@@ -1,63 +1,17 @@
-import {
-  Box,
-  Button,
-  Stack,
-  Typography,
-} from '@mui/material';
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useNavigate,
-} from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { LoginPage } from '../../features/auth';
-import { clearSession } from '../../features/auth/store/AuthSlice';
-import { AuthLayout } from '../../layouts/AuthLayout/AuthLayout';
-import { useAppDispatch } from '../store/hooks';
+import { DashboardPage } from '../../features/dashboard';
+import { AuthLayout, MainLayout } from '../../layouts';
+import { ComingSoonPage } from '../../shared/pages/ComingSoonPage';
 import { GuestRoute } from './GuestRoute';
+import { navigationConfig } from './navigationConfig';
+import { paths } from './paths';
 import { ProtectedRoute } from './ProtectedRoute';
 
-function DashboardPlaceholder() {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    dispatch(clearSession());
-    navigate('/login', {
-      replace: true,
-    });
-  };
-
-  return (
-    <Box sx={{ p: 4 }}>
-      <Stack
-        spacing={2}
-        sx={{ alignItems: 'flex-start' }}
-      >
-        <Typography
-          component="h1"
-          variant="h4"
-        >
-          Dashboard PenguinTech
-        </Typography>
-
-        <Typography color="text.secondary">
-          La autenticación funciona. En el siguiente paso construiremos
-          el DashboardLayout, Sidebar y Header.
-        </Typography>
-
-        <Button
-          variant="outlined"
-          onClick={handleLogout}
-        >
-          Cerrar sesión
-        </Button>
-      </Stack>
-    </Box>
-  );
-}
+const upcomingNavigationItems = navigationConfig.filter(
+  (item) => item.path !== paths.dashboard,
+);
 
 export function AppRouter() {
   return (
@@ -65,29 +19,31 @@ export function AppRouter() {
       <Routes>
         <Route element={<GuestRoute />}>
           <Route element={<AuthLayout />}>
-            <Route
-              path="/login"
-              element={<LoginPage />}
-            />
+            <Route path={paths.login} element={<LoginPage />} />
           </Route>
         </Route>
 
         <Route element={<ProtectedRoute />}>
-          <Route
-            path="/"
-            element={<DashboardPlaceholder />}
-          />
+          <Route element={<MainLayout />}>
+            <Route path={paths.dashboard} element={<DashboardPage />} />
+
+            {upcomingNavigationItems.map((item) => (
+              <Route
+                key={item.path}
+                path={item.path}
+                element={
+                  <ComingSoonPage
+                    title={item.label}
+                    description={item.description}
+                    icon={item.icon}
+                  />
+                }
+              />
+            ))}
+          </Route>
         </Route>
 
-        <Route
-          path="*"
-          element={
-            <Navigate
-              to="/"
-              replace
-            />
-          }
-        />
+        <Route path="*" element={<Navigate to={paths.dashboard} replace />} />
       </Routes>
     </BrowserRouter>
   );

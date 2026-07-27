@@ -71,17 +71,24 @@ src/
 ├── assets/
 │   └── logos/            # Recursos gráficos de PenguinTech
 ├── features/
-│   └── auth/
-│       ├── api/          # Servicio de autenticación
-│       ├── components/   # Componentes propios del acceso
-│       ├── pages/        # Páginas del módulo
-│       ├── schemas/      # Reglas de validación
-│       ├── store/        # Estado y acciones de sesión
-│       └── types/        # Contratos TypeScript
+│   ├── auth/
+│   │   ├── api/          # Servicio de autenticación
+│   │   ├── components/   # Componentes propios del acceso
+│   │   ├── pages/        # Páginas del módulo
+│   │   ├── schemas/      # Reglas de validación
+│   │   ├── store/        # Estado y acciones de sesión
+│   │   └── types/        # Contratos TypeScript
+│   └── dashboard/
+│       ├── components/   # Indicadores y vistas operativas
+│       ├── data/         # Datos de presentación del panel
+│       ├── pages/        # Página principal del módulo
+│       └── types/        # Contratos del dashboard
 ├── layouts/
-│   └── AuthLayout/       # Estructura visual de autenticación
+│   ├── AuthLayout/       # Estructura visual de autenticación
+│   └── MainLayout/       # Header, sidebar y contenido autenticado
 ├── shared/
-│   └── components/       # Componentes reutilizables
+│   ├── components/       # Componentes reutilizables
+│   └── pages/            # Páginas compartidas entre módulos
 ├── App.tsx               # Componente raíz
 └── main.tsx              # Punto de entrada y montaje de React
 ```
