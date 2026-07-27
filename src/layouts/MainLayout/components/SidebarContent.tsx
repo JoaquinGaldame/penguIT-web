@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 
 import { navigationConfig } from '../../../app/router/navigationConfig';
+import { useSidebarNavigation } from '../hooks/useSidebarNavigation';
 import { SidebarBrand } from './SidebarBrand';
 import { SidebarItem } from './SidebarItem';
 
@@ -27,6 +28,7 @@ export function SidebarContent({
   onToggleCollapsed,
 }: SidebarContentProps) {
   const showExpandedContent = temporary || !collapsed;
+  const { openItems, toggleItem } = useSidebarNavigation();
 
   return (
     <Stack sx={{ height: '100%' }}>
@@ -76,9 +78,12 @@ export function SidebarContent({
         <List disablePadding sx={{ display: 'grid', gap: 0.5 }}>
           {navigationConfig.map((item) => (
             <SidebarItem
-              key={item.path}
+              key={item.id}
               item={item}
               collapsed={!showExpandedContent}
+              level={0}
+              openItems={openItems}
+              onToggleItem={toggleItem}
               onNavigate={onNavigate}
             />
           ))}

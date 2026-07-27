@@ -6,11 +6,11 @@ import { OrdersPage } from '../../features/orders';
 import { AuthLayout, MainLayout } from '../../layouts';
 import { ComingSoonPage } from '../../shared/pages/ComingSoonPage';
 import { GuestRoute } from './GuestRoute';
-import { navigationConfig } from './navigationConfig';
+import { getNavigationLeaves } from './navigationConfig';
 import { paths } from './paths';
 import { ProtectedRoute } from './ProtectedRoute';
 
-const upcomingNavigationItems = navigationConfig.filter(
+const upcomingNavigationItems = getNavigationLeaves().filter(
   (item) => item.path !== paths.dashboard && item.path !== paths.orders,
 );
 
@@ -28,16 +28,24 @@ export function AppRouter() {
           <Route element={<MainLayout />}>
             <Route path={paths.dashboard} element={<DashboardPage />} />
             <Route path={paths.orders} element={<OrdersPage />} />
+            <Route
+              path={paths.inventory}
+              element={<Navigate to={paths.inventoryProducts} replace />}
+            />
+            <Route
+              path={paths.administration}
+              element={<Navigate to={paths.administrationUsers} replace />}
+            />
 
             {upcomingNavigationItems.map((item) => (
               <Route
-                key={item.path}
-                path={item.path}
+                key={item.id}
+                path={item.path!}
                 element={
                   <ComingSoonPage
                     title={item.label}
                     description={item.description}
-                    icon={item.icon}
+                    icon={item.icon ?? 'solar:document-linear'}
                   />
                 }
               />
