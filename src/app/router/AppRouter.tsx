@@ -1,8 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+// Pages
 import { LoginPage } from '../../features/auth';
 import { DashboardPage } from '../../features/dashboard';
 import { OrdersPage } from '../../features/orders';
+import { CreateProductPage } from '../../features/products';
+
 import { AuthLayout, MainLayout } from '../../layouts';
 import { ComingSoonPage } from '../../shared/pages/ComingSoonPage';
 import { GuestRoute } from './GuestRoute';
@@ -11,7 +14,10 @@ import { paths } from './paths';
 import { ProtectedRoute } from './ProtectedRoute';
 
 const upcomingNavigationItems = getNavigationLeaves().filter(
-  (item) => item.path !== paths.dashboard && item.path !== paths.orders,
+  (item) =>
+    item.path !== paths.dashboard &&
+    item.path !== paths.orders &&
+    item.path !== paths.inventoryProductNew,
 );
 
 export function AppRouter() {
@@ -31,6 +37,10 @@ export function AppRouter() {
             <Route
               path={paths.inventory}
               element={<Navigate to={paths.inventoryProducts} replace />}
+            />
+            <Route
+              path={paths.inventoryProductNew}
+              element={<CreateProductPage />}
             />
             <Route
               path={paths.administration}
