@@ -27,8 +27,7 @@ export interface CreateProductRequest {
   image?: File;
 }
 
-export interface Product
-  extends Omit<CreateProductRequest, 'image'> {
+export interface Product extends Omit<CreateProductRequest, 'image'> {
   id: string;
   imageUrl?: string;
   currentStock?: number;

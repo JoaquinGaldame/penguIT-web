@@ -7,6 +7,8 @@ export const paths = {
   recipes: '/recipes',
   purchases: '/purchases',
   billing: '/billing',
+  billingInvoiceNew: "/billing/invoices/new",
+  billingInvoicePreview: (invoiceId: string) =>`/billing/invoices/${invoiceId}`,
   administration: '/administration',
   administrationUsers: '/administration/users',
   administrationUserNew: '/administration/users/new',

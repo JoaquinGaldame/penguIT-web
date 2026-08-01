@@ -4,10 +4,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { LoginPage } from '../../features/auth';
 import { DashboardPage } from '../../features/dashboard';
 import { OrdersPage } from '../../features/orders';
-import {
-  CreateProductPage,
-  ProductListPage,
-} from '../../features/products';
+import { InvoiceListPage } from "../../features/invoice";
+import { CreateProductPage, ProductListPage } from '../../features/products';
 
 import { AuthLayout, MainLayout } from '../../layouts';
 import { ComingSoonPage } from '../../shared/pages/ComingSoonPage';
@@ -21,7 +19,8 @@ const upcomingNavigationItems = getNavigationLeaves().filter(
     item.path !== paths.dashboard &&
     item.path !== paths.orders &&
     item.path !== paths.inventoryProducts &&
-    item.path !== paths.inventoryProductNew,
+    item.path !== paths.inventoryProductNew &&
+    item.path !== paths.billing
 );
 
 export function AppRouter() {
@@ -49,6 +48,27 @@ export function AppRouter() {
             <Route
               path={paths.inventoryProducts}
               element={<ProductListPage />}
+            />
+             <Route path={paths.billing} element={<InvoiceListPage />} />
+            <Route
+              path={paths.billingInvoiceNew}
+              element={
+                <ComingSoonPage
+                  title="Crear factura"
+                  description="El formulario de creación se incorporará en la próxima etapa."
+                  icon="solar:document-add-linear"
+                />
+              }
+            />
+            <Route
+              path="/billing/invoices/:invoiceId"
+              element={
+                <ComingSoonPage
+                  title="Vista previa de factura"
+                  description="La vista previa se incorporará en la próxima etapa."
+                  icon="solar:document-text-linear"
+                />
+              }
             />
             <Route
               path={paths.administration}
