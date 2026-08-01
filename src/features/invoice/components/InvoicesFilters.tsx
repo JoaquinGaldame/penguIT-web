@@ -1,5 +1,6 @@
-import { Icon } from "@iconify/react";
 import { Button, InputAdornment, Stack, TextField } from "@mui/material";
+
+import { AppIcon } from "../../../shared/components/AppIcon";
 
 interface InvoicesFiltersProps {
   search: string;
@@ -30,7 +31,7 @@ export function InvoicesFilters({
           input: {
             startAdornment: (
               <InputAdornment position="start">
-                <Icon icon="solar:magnifer-linear" width={20} />
+                <AppIcon icon="solar:magnifer-linear" width={20} />
               </InputAdornment>
             ),
           },
@@ -41,7 +42,7 @@ export function InvoicesFilters({
         <Button
           color="inherit"
           onClick={onReset}
-          startIcon={<Icon icon="solar:restart-linear" width={19} />}
+          startIcon={<AppIcon icon="solar:restart-linear" width={19} />}
           sx={{ whiteSpace: "nowrap" }}
         >
           Limpiar filtros

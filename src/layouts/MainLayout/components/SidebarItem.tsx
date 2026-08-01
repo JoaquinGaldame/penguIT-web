@@ -1,5 +1,4 @@
-import { useState, type MouseEvent } from 'react';
-import { Icon } from '@iconify/react';
+import { useState, type MouseEvent } from "react";
 import {
   Box,
   ClickAwayListener,
@@ -13,13 +12,14 @@ import {
   Popper,
   Tooltip,
   Typography,
-} from '@mui/material';
-import { NavLink, useLocation } from 'react-router-dom';
+} from "@mui/material";
+import { NavLink, useLocation } from "react-router-dom";
 
 import {
   findNavigationTrail,
   type NavigationItem,
-} from '../../../app/router/navigationConfig';
+} from "../../../app/router/navigationConfig";
+import { AppIcon } from "../../../shared/components/AppIcon";
 
 interface SidebarItemProps {
   item: NavigationItem;
@@ -79,19 +79,19 @@ export function SidebarItem({
           width: level === 0 ? 48 : 28,
           minWidth: level === 0 ? 48 : 28,
           flexShrink: 0,
-          color: 'inherit',
-          justifyContent: 'center',
+          color: "inherit",
+          justifyContent: "center",
         }}
       >
         {item.icon ? (
-          <Icon icon={item.icon} width={level === 0 ? 23 : 18} />
+          <AppIcon icon={item.icon} width={level === 0 ? 23 : 18} />
         ) : (
           <Box
             sx={{
               width: 5,
               height: 5,
-              borderRadius: '50%',
-              bgcolor: 'currentColor',
+              borderRadius: "50%",
+              bgcolor: "currentColor",
               opacity: selected ? 1 : 0.55,
             }}
           />
@@ -106,20 +106,20 @@ export function SidebarItem({
           m: 0,
           ml: collapsed ? 0 : 0.5,
           opacity: collapsed ? 0 : 1,
-          overflow: 'hidden',
-          transform: collapsed ? 'translateX(-5px)' : 'translateX(0)',
-          visibility: collapsed ? 'hidden' : 'visible',
+          overflow: "hidden",
+          transform: collapsed ? "translateX(-5px)" : "translateX(0)",
+          visibility: collapsed ? "hidden" : "visible",
           transition: collapsed
-            ? 'max-width 180ms ease-in, margin-left 180ms ease-in, opacity 90ms ease-in, transform 120ms ease-in, visibility 0s linear 180ms'
-            : 'max-width 220ms ease-out, margin-left 180ms ease-out, opacity 140ms ease-out 80ms, transform 180ms ease-out 60ms, visibility 0s linear',
+            ? "max-width 180ms ease-in, margin-left 180ms ease-in, opacity 90ms ease-in, transform 120ms ease-in, visibility 0s linear 180ms"
+            : "max-width 220ms ease-out, margin-left 180ms ease-out, opacity 140ms ease-out 80ms, transform 180ms ease-out 60ms, visibility 0s linear",
         }}
         slotProps={{
           primary: {
             noWrap: true,
             sx: {
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
               fontSize: level === 0 ? 14 : 13.5,
               lineHeight: 1.4,
               fontWeight: selected ? 700 : level === 0 ? 600 : 500,
@@ -131,26 +131,26 @@ export function SidebarItem({
       {hasChildren && (
         <Box
           sx={{
-            display: 'grid',
-            placeItems: 'center',
+            display: "grid",
+            placeItems: "center",
             width: 22,
             flexShrink: 0,
             ...(collapsed &&
               level === 0 && {
-                position: 'absolute',
+                position: "absolute",
                 right: 2,
                 width: 16,
               }),
             transform:
               collapsed && level === 0
-                ? 'rotate(-90deg)'
+                ? "rotate(-90deg)"
                 : isOpen
-                  ? 'rotate(180deg)'
-                  : 'rotate(0)',
-            transition: 'transform 180ms ease',
+                  ? "rotate(180deg)"
+                  : "rotate(0)",
+            transition: "transform 180ms ease",
           }}
         >
-          <Icon icon="solar:alt-arrow-down-linear" width={16} />
+          <AppIcon icon="solar:alt-arrow-down-linear" width={16} />
         </Box>
       )}
     </>
@@ -160,23 +160,23 @@ export function SidebarItem({
     minHeight: level === 0 ? 48 : 42,
     px: 1,
     borderRadius: 2,
-    overflow: 'hidden',
-    color: selected ? 'primary.main' : 'text.secondary',
-    '&.Mui-selected': {
-      color: 'primary.main',
+    overflow: "hidden",
+    color: selected ? "primary.main" : "text.secondary",
+    "&.Mui-selected": {
+      color: "primary.main",
       backgroundColor:
-        level === 0 ? 'rgba(20, 103, 193, 0.10)' : 'rgba(20, 103, 193, 0.07)',
+        level === 0 ? "rgba(20, 103, 193, 0.10)" : "rgba(20, 103, 193, 0.07)",
     },
-    '&.Mui-selected:hover': {
+    "&.Mui-selected:hover": {
       backgroundColor:
-        level === 0 ? 'rgba(20, 103, 193, 0.14)' : 'rgba(20, 103, 193, 0.11)',
+        level === 0 ? "rgba(20, 103, 193, 0.14)" : "rgba(20, 103, 193, 0.11)",
     },
   };
 
   return (
     <>
       <Tooltip
-        title={collapsed && !anchorEl ? item.label : ''}
+        title={collapsed && !anchorEl ? item.label : ""}
         placement="right"
       >
         {hasChildren ? (
@@ -208,7 +208,7 @@ export function SidebarItem({
           <List
             disablePadding
             sx={{
-              display: 'grid',
+              display: "grid",
               gap: 0.25,
               pl: level === 0 ? 2.25 : 1.5,
               pt: 0.25,
@@ -237,7 +237,7 @@ export function SidebarItem({
           sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
           modifiers={[
             {
-              name: 'offset',
+              name: "offset",
               options: { offset: [0, 10] },
             },
           ]}
@@ -247,8 +247,8 @@ export function SidebarItem({
               elevation={6}
               sx={{
                 width: 244,
-                maxHeight: '80vh',
-                overflowY: 'auto',
+                maxHeight: "80vh",
+                overflowY: "auto",
                 p: 1,
                 borderRadius: 2,
               }}
@@ -256,10 +256,10 @@ export function SidebarItem({
               <Typography
                 variant="caption"
                 sx={{
-                  display: 'block',
+                  display: "block",
                   px: 1.25,
                   py: 0.75,
-                  color: 'text.secondary',
+                  color: "text.secondary",
                   fontWeight: 700,
                 }}
               >
@@ -268,7 +268,7 @@ export function SidebarItem({
 
               <Divider sx={{ mb: 0.75 }} />
 
-              <List disablePadding sx={{ display: 'grid', gap: 0.25 }}>
+              <List disablePadding sx={{ display: "grid", gap: 0.25 }}>
                 {item.children!.map((child) => (
                   <SidebarItem
                     key={child.id}

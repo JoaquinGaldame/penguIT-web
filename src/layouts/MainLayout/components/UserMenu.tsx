@@ -1,4 +1,3 @@
-import { Icon } from '@iconify/react';
 import {
   Avatar,
   Box,
@@ -9,13 +8,14 @@ import {
   MenuItem,
   Stack,
   Typography,
-} from '@mui/material';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+} from "@mui/material";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { paths } from '../../../app/router/paths';
-import { useAppDispatch, useAppSelector } from '../../../app/store/hooks';
-import { clearSession } from '../../../features/auth/store/AuthSlice';
+import { paths } from "../../../app/router/paths";
+import { useAppDispatch, useAppSelector } from "../../../app/store/hooks";
+import { clearSession } from "../../../features/auth/store/AuthSlice";
+import { AppIcon } from "../../../shared/components/AppIcon";
 
 export function UserMenu() {
   const dispatch = useAppDispatch();
@@ -30,9 +30,9 @@ export function UserMenu() {
   };
 
   const initials = user?.name
-    .split(' ')
+    .split(" ")
     .map((word) => word[0])
-    .join('')
+    .join("")
     .slice(0, 2)
     .toUpperCase();
 
@@ -41,7 +41,7 @@ export function UserMenu() {
       <IconButton
         onClick={(event) => setAnchorElement(event.currentTarget)}
         aria-label="Abrir menú de usuario"
-        aria-controls={anchorElement ? 'user-menu' : undefined}
+        aria-controls={anchorElement ? "user-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={Boolean(anchorElement)}
         sx={{ p: 0.5 }}
@@ -50,12 +50,12 @@ export function UserMenu() {
           sx={{
             width: 38,
             height: 38,
-            bgcolor: 'primary.main',
+            bgcolor: "primary.main",
             fontSize: 14,
             fontWeight: 700,
           }}
         >
-          {initials || 'PT'}
+          {initials || "PT"}
         </Avatar>
       </IconButton>
 
@@ -64,42 +64,42 @@ export function UserMenu() {
         anchorEl={anchorElement}
         open={Boolean(anchorElement)}
         onClose={() => setAnchorElement(null)}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
         slotProps={{
           paper: {
             sx: {
               width: 280,
               mt: 1.5,
               border: 1,
-              borderColor: 'divider',
-              boxShadow: '0 14px 36px rgba(10, 46, 92, 0.14)',
+              borderColor: "divider",
+              boxShadow: "0 14px 36px rgba(10, 46, 92, 0.14)",
             },
           },
         }}
       >
         <Box sx={{ px: 2.5, py: 1.5 }}>
-          <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+          <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
             <Avatar
               sx={{
-                bgcolor: 'primary.main',
+                bgcolor: "primary.main",
                 fontSize: 14,
                 fontWeight: 700,
               }}
             >
-              {initials || 'PT'}
+              {initials || "PT"}
             </Avatar>
 
             <Box sx={{ minWidth: 0 }}>
               <Typography variant="subtitle2" noWrap sx={{ fontWeight: 700 }}>
-                {user?.name ?? 'Usuario'}
+                {user?.name ?? "Usuario"}
               </Typography>
 
               <Typography
                 variant="caption"
                 color="text.secondary"
                 noWrap
-                sx={{ display: 'block' }}
+                sx={{ display: "block" }}
               >
                 {user?.email}
               </Typography>
@@ -122,7 +122,7 @@ export function UserMenu() {
           sx={{ mx: 1, my: 1, borderRadius: 1.5 }}
         >
           <ListItemIcon>
-            <Icon icon="solar:logout-2-linear" width={20} />
+            <AppIcon icon="solar:logout-2-linear" width={20} />
           </ListItemIcon>
           Cerrar sesión
         </MenuItem>

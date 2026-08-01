@@ -76,6 +76,8 @@ export function OrdersPage() {
   );
   const hasActiveFilters =
     search.trim().length > 0 || channel !== "all" || status !== "all";
+  const hasInitialError = isError && data === undefined;
+  const hasRefetchError = isError && data !== undefined;
 
   return (
     <Stack spacing={2.5}>
@@ -173,7 +175,14 @@ export function OrdersPage() {
         </Tabs>
       </Paper>
 
-      {isError ? (
+      {hasRefetchError && (
+        <Alert severity="warning" role="status">
+          No pudimos actualizar los pedidos. Se mantienen visibles los últimos
+          datos disponibles.
+        </Alert>
+      )}
+
+      {hasInitialError ? (
         <Alert
           severity="error"
           action={

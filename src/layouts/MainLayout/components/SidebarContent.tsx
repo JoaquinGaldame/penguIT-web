@@ -1,4 +1,3 @@
-import { Icon } from '@iconify/react';
 import {
   Box,
   Divider,
@@ -7,12 +6,13 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
-import { navigationConfig } from '../../../app/router/navigationConfig';
-import { useSidebarNavigation } from '../hooks/useSidebarNavigation';
-import { SidebarBrand } from './SidebarBrand';
-import { SidebarItem } from './SidebarItem';
+import { navigationConfig } from "../../../app/router/navigationConfig";
+import { AppIcon } from "../../../shared/components/AppIcon";
+import { useSidebarNavigation } from "../hooks/useSidebarNavigation";
+import { SidebarBrand } from "./SidebarBrand";
+import { SidebarItem } from "./SidebarItem";
 
 interface SidebarContentProps {
   collapsed: boolean;
@@ -31,7 +31,7 @@ export function SidebarContent({
   const { openItems, toggleItem } = useSidebarNavigation();
 
   return (
-    <Stack sx={{ height: '100%' }}>
+    <Stack sx={{ height: "100%" }}>
       <SidebarBrand expanded={showExpandedContent} onNavigate={onNavigate} />
 
       <Divider />
@@ -41,7 +41,7 @@ export function SidebarContent({
         aria-label="Navegación principal"
         sx={{
           flex: 1,
-          overflowY: 'auto',
+          overflowY: "auto",
           px: 1.25,
           py: 2.5,
         }}
@@ -50,32 +50,32 @@ export function SidebarContent({
           sx={{
             height: showExpandedContent ? 27 : 0,
             opacity: showExpandedContent ? 1 : 0,
-            overflow: 'hidden',
+            overflow: "hidden",
             transform: showExpandedContent
-              ? 'translateX(0)'
-              : 'translateX(-4px)',
+              ? "translateX(0)"
+              : "translateX(-4px)",
             transition: showExpandedContent
-              ? 'height 220ms ease-out, opacity 140ms ease-out 80ms, transform 180ms ease-out 60ms'
-              : 'height 180ms ease-in, opacity 90ms ease-in, transform 120ms ease-in',
+              ? "height 220ms ease-out, opacity 140ms ease-out 80ms, transform 180ms ease-out 60ms"
+              : "height 180ms ease-in, opacity 90ms ease-in, transform 120ms ease-in",
           }}
         >
           <Typography
             variant="overline"
             sx={{
-              display: 'block',
+              display: "block",
               px: 1.5,
               mb: 1,
-              color: 'text.secondary',
+              color: "text.secondary",
               fontWeight: 700,
               letterSpacing: 1,
-              whiteSpace: 'nowrap',
+              whiteSpace: "nowrap",
             }}
           >
             Operación
           </Typography>
         </Box>
 
-        <List disablePadding sx={{ display: 'grid', gap: 0.5 }}>
+        <List disablePadding sx={{ display: "grid", gap: 0.5 }}>
           {navigationConfig.map((item) => (
             <SidebarItem
               key={item.id}
@@ -96,29 +96,29 @@ export function SidebarContent({
 
           <Box
             sx={{
-              display: 'grid',
+              display: "grid",
               gridTemplateColumns: collapsed
-                ? 'minmax(0, 0fr) auto'
-                : 'minmax(0, 1fr) auto',
-              alignItems: 'center',
+                ? "minmax(0, 0fr) auto"
+                : "minmax(0, 1fr) auto",
+              alignItems: "center",
               minHeight: 68,
               gap: collapsed ? 0 : 1,
               px: 2.5,
               transition:
-                'grid-template-columns 220ms ease-out, gap 180ms ease-out',
+                "grid-template-columns 220ms ease-out, gap 180ms ease-out",
             }}
           >
             <Box
               sx={{
                 minWidth: 0,
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
+                overflow: "hidden",
+                whiteSpace: "nowrap",
                 opacity: collapsed ? 0 : 1,
-                transform: collapsed ? 'translateX(-4px)' : 'translateX(0)',
-                visibility: collapsed ? 'hidden' : 'visible',
+                transform: collapsed ? "translateX(-4px)" : "translateX(0)",
+                visibility: collapsed ? "hidden" : "visible",
                 transition: collapsed
-                  ? 'opacity 90ms ease-in, transform 120ms ease-in, visibility 0s linear 120ms'
-                  : 'opacity 140ms ease-out 80ms, transform 180ms ease-out 60ms, visibility 0s linear',
+                  ? "opacity 90ms ease-in, transform 120ms ease-in, visibility 0s linear 120ms"
+                  : "opacity 140ms ease-out 80ms, transform 180ms ease-out 60ms, visibility 0s linear",
               }}
             >
               <Typography variant="caption" color="text.secondary">
@@ -131,22 +131,22 @@ export function SidebarContent({
             </Box>
 
             <Tooltip
-              title={collapsed ? 'Expandir menú' : 'Contraer menú'}
+              title={collapsed ? "Expandir menú" : "Contraer menú"}
               placement="right"
             >
               <IconButton
                 onClick={onToggleCollapsed}
-                aria-label={collapsed ? 'Expandir menú' : 'Contraer menú'}
+                aria-label={collapsed ? "Expandir menú" : "Contraer menú"}
                 sx={{
-                  color: 'primary.main',
-                  backgroundColor: 'rgba(20, 103, 193, 0.08)',
+                  color: "primary.main",
+                  backgroundColor: "rgba(20, 103, 193, 0.08)",
                 }}
               >
-                <Icon
+                <AppIcon
                   icon={
                     collapsed
-                      ? 'solar:double-alt-arrow-right-linear'
-                      : 'solar:double-alt-arrow-left-linear'
+                      ? "solar:double-alt-arrow-right-linear"
+                      : "solar:double-alt-arrow-left-linear"
                   }
                   width={20}
                 />

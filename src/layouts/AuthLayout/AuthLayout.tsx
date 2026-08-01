@@ -1,5 +1,8 @@
-import { Box, Stack, Typography } from '@mui/material';
-import { Outlet } from 'react-router-dom';
+import { Suspense } from "react";
+import { Box, Stack, Typography } from "@mui/material";
+import { Outlet } from "react-router-dom";
+
+import { RouteLoadingFallback } from "../../shared/components/RouteLoadingFallback";
 
 //import { BrandLogo } from '../../../shared/components/BrandLogo';
 
@@ -7,21 +10,21 @@ export function AuthLayout() {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        display: 'grid',
+        minHeight: "100vh",
+        display: "grid",
         gridTemplateColumns: {
-          xs: '1fr',
-          lg: 'minmax(420px, 46%) 1fr',
+          xs: "1fr",
+          lg: "minmax(420px, 46%) 1fr",
         },
-        backgroundColor: 'background.paper',
+        backgroundColor: "background.paper",
       }}
     >
       <Box
         component="main"
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           px: {
             xs: 2.5,
             sm: 5,
@@ -32,51 +35,53 @@ export function AuthLayout() {
       >
         <Box
           sx={{
-            width: '100%',
+            width: "100%",
             maxWidth: 440,
           }}
         >
-          <Outlet />
+          <Suspense fallback={<RouteLoadingFallback />}>
+            <Outlet />
+          </Suspense>
         </Box>
       </Box>
 
       <Box
         sx={{
           display: {
-            xs: 'none',
-            lg: 'flex',
+            xs: "none",
+            lg: "flex",
           },
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-          color: 'common.white',
-          backgroundColor: 'primary.main',
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+          overflow: "hidden",
+          color: "common.white",
+          backgroundColor: "primary.main",
           p: 8,
         }}
       >
         <Box
           sx={{
-            position: 'absolute',
+            position: "absolute",
             width: 500,
             height: 500,
             top: -220,
             right: -180,
-            borderRadius: '50%',
-            backgroundColor: 'secondary.main',
+            borderRadius: "50%",
+            backgroundColor: "secondary.main",
             opacity: 0.22,
           }}
         />
 
         <Box
           sx={{
-            position: 'absolute',
+            position: "absolute",
             width: 360,
             height: 360,
             bottom: -190,
             left: -130,
-            borderRadius: '50%',
-            backgroundColor: 'secondary.light',
+            borderRadius: "50%",
+            backgroundColor: "secondary.light",
             opacity: 0.18,
           }}
         />
@@ -84,7 +89,7 @@ export function AuthLayout() {
         <Stack
           spacing={3}
           sx={{
-            position: 'relative',
+            position: "relative",
             zIndex: 1,
             maxWidth: 520,
           }}
@@ -93,7 +98,7 @@ export function AuthLayout() {
             component="p"
             variant="overline"
             sx={{
-              color: 'secondary.light',
+              color: "secondary.light",
               fontWeight: 700,
               letterSpacing: 2,
             }}
@@ -105,7 +110,7 @@ export function AuthLayout() {
             component="h1"
             variant="h3"
             sx={{
-              color: 'inherit',
+              color: "inherit",
               lineHeight: 1.15,
             }}
           >
@@ -115,13 +120,13 @@ export function AuthLayout() {
           <Typography
             variant="h6"
             sx={{
-              color: 'rgba(255, 255, 255, 0.78)',
+              color: "rgba(255, 255, 255, 0.78)",
               fontWeight: 400,
               lineHeight: 1.6,
             }}
           >
-            Gestioná pedidos, inventario, recetas, compras y
-            facturación desde un único lugar.
+            Gestioná pedidos, inventario, recetas, compras y facturación desde
+            un único lugar.
           </Typography>
         </Stack>
       </Box>

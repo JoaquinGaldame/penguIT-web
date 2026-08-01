@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Icon } from "@iconify/react";
 import {
   Alert,
   Avatar,
@@ -18,9 +17,18 @@ import {
 } from "@mui/material";
 import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 
+import { AppIcon } from "../../../shared/components/AppIcon";
 // Schemas and Formatters
-import { invoiceSchema, type InvoiceFormInput, type InvoiceFormValues } from "../schemas/invoiceSchemas";
-import type { InvoiceCurrency, InvoiceCustomer, InvoiceStatus } from "../types/Invoice.types";
+import {
+  invoiceSchema,
+  type InvoiceFormInput,
+  type InvoiceFormValues,
+} from "../schemas/invoiceSchemas";
+import type {
+  InvoiceCurrency,
+  InvoiceCustomer,
+  InvoiceStatus,
+} from "../types/Invoice.types";
 import { formatInvoiceCurrency } from "../utils/invoiceFormatters";
 
 type CreateInvoiceStatus = Extract<InvoiceStatus, "draft" | "sent">;
@@ -161,7 +169,7 @@ export function InvoiceForm({
                 variant="rounded"
                 sx={{ bgcolor: "primary.main", height: 48, width: 48 }}
               >
-                <Icon icon="solar:bill-list-bold" width={26} />
+                <AppIcon icon="solar:bill-list-bold" width={26} />
               </Avatar>
               <Box>
                 <Typography variant="h6">Nueva factura</Typography>
@@ -298,7 +306,9 @@ export function InvoiceForm({
 
                 <Button
                   variant="outlined"
-                  startIcon={<Icon icon="solar:add-circle-linear" width={20} />}
+                  startIcon={
+                    <AppIcon icon="solar:add-circle-linear" width={20} />
+                  }
                   onClick={() =>
                     append({
                       description: "",
@@ -366,7 +376,7 @@ export function InvoiceForm({
                             onClick={() => remove(index)}
                             sx={{ mt: 0.25 }}
                           >
-                            <Icon
+                            <AppIcon
                               icon="solar:trash-bin-trash-linear"
                               width={21}
                             />
@@ -446,7 +456,7 @@ export function InvoiceForm({
               <Button
                 variant="contained"
                 disabled={isSubmitting}
-                startIcon={<Icon icon="solar:plain-2-linear" width={20} />}
+                startIcon={<AppIcon icon="solar:plain-2-linear" width={20} />}
                 onClick={submitWithStatus("sent")}
               >
                 {isSubmitting ? "Creando…" : "Crear y marcar enviada"}
@@ -454,7 +464,7 @@ export function InvoiceForm({
               <Button
                 variant="outlined"
                 disabled={isSubmitting}
-                startIcon={<Icon icon="solar:diskette-linear" width={20} />}
+                startIcon={<AppIcon icon="solar:diskette-linear" width={20} />}
                 onClick={submitWithStatus("draft")}
               >
                 Guardar borrador
@@ -472,7 +482,7 @@ export function InvoiceForm({
           <Alert
             severity="info"
             variant="outlined"
-            icon={<Icon icon="solar:info-circle-linear" width={22} />}
+            icon={<AppIcon icon="solar:info-circle-linear" width={22} />}
           >
             Los impuestos y totales se recalcularán en el servidor al crear la
             factura.

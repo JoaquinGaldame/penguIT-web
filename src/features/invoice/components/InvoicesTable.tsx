@@ -1,9 +1,8 @@
-import { Icon } from "@iconify/react";
 import {
   Avatar,
   Checkbox,
-  CircularProgress,
   IconButton,
+  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -15,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 
+import { AppIcon } from "../../../shared/components/AppIcon";
 import type { Invoice } from "../types/Invoice.types";
 import {
   formatInvoiceCurrency,
@@ -53,9 +53,7 @@ export function InvoicesTable({
             <TableCell padding="checkbox">
               <Checkbox
                 checked={allVisibleSelected}
-                indeterminate={
-                  selectedVisibleCount > 0 && !allVisibleSelected
-                }
+                indeterminate={selectedVisibleCount > 0 && !allVisibleSelected}
                 onChange={(event) => onSelectAll(event.target.checked)}
                 slotProps={{
                   input: {
@@ -75,119 +73,127 @@ export function InvoicesTable({
         </TableHead>
 
         <TableBody>
-          {isLoading ? (
-            <TableRow>
-              <TableCell colSpan={8} sx={{ borderBottom: 0, height: 360 }}>
-                <Stack
-                  spacing={1.5}
-                  sx={{ alignItems: "center", justifyContent: "center" }}
+          {isLoading
+            ? Array.from({ length: 6 }).map((_, rowIndex) => (
+                <TableRow key={rowIndex} aria-hidden="true">
+                  <TableCell padding="checkbox">
+                    <Skeleton variant="rounded" width={20} height={20} />
+                  </TableCell>
+                  {Array.from({ length: 7 }).map((__, cellIndex) => (
+                    <TableCell key={cellIndex} sx={{ height: 64 }}>
+                      <Skeleton
+                        variant="text"
+                        width={
+                          cellIndex === 1 ? 150 : cellIndex === 5 ? 84 : 104
+                        }
+                      />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            : invoices.map((invoice) => (
+                <TableRow
+                  key={invoice.id}
+                  hover
+                  selected={selectedInvoiceIds.has(invoice.id)}
+                  sx={{ "&:last-child td": { borderBottom: 0 } }}
                 >
-                  <CircularProgress size={38} />
-                  <Typography color="text.secondary" variant="body2">
-                    Cargando facturas…
-                  </Typography>
-                </Stack>
-              </TableCell>
-            </TableRow>
-          ) : invoices.map((invoice) => (
-            <TableRow
-              key={invoice.id}
-              hover
-              selected={selectedInvoiceIds.has(invoice.id)}
-              sx={{ "&:last-child td": { borderBottom: 0 } }}
-            >
-              <TableCell padding="checkbox">
-                <Checkbox
-                  checked={selectedInvoiceIds.has(invoice.id)}
-                  onChange={(event) =>
-                    onSelectInvoice(invoice.id, event.target.checked)
-                  }
-                  slotProps={{
-                    input: {
-                      "aria-label": `Seleccionar ${invoice.number}`,
-                    },
-                  }}
-                />
-              </TableCell>
-              <TableCell>
-                <Typography
-                  color="primary.main"
-                  variant="body2"
-                  sx={{ fontWeight: 700, whiteSpace: "nowrap" }}
-                >
-                  {invoice.number}
-                </Typography>
-              </TableCell>
-
-              <TableCell>
-                <Stack
-                  direction="row"
-                  spacing={1.25}
-                  sx={{ alignItems: "center" }}
-                >
-                  <Avatar
-                    sx={{
-                      bgcolor: "rgba(20, 103, 193, 0.12)",
-                      color: "secondary.main",
-                      fontSize: 13,
-                      fontWeight: 800,
-                      height: 36,
-                      width: 36,
-                    }}
-                  >
-                    {invoice.customer.initials}
-                  </Avatar>
-
-                  <Stack spacing={0.1}>
-                    <Typography variant="body2" sx={{ fontWeight: 700 }}>
-                      {invoice.customer.name}
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={selectedInvoiceIds.has(invoice.id)}
+                      onChange={(event) =>
+                        onSelectInvoice(invoice.id, event.target.checked)
+                      }
+                      slotProps={{
+                        input: {
+                          "aria-label": `Seleccionar ${invoice.number}`,
+                        },
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      color="primary.main"
+                      variant="body2"
+                      sx={{ fontWeight: 700, whiteSpace: "nowrap" }}
+                    >
+                      {invoice.number}
                     </Typography>
-                    <Typography color="text.secondary" variant="caption">
-                      {invoice.customer.email}
-                    </Typography>
-                  </Stack>
-                </Stack>
-              </TableCell>
+                  </TableCell>
 
-              <TableCell sx={{ color: "text.secondary", whiteSpace: "nowrap" }}>
-                {formatInvoiceDate(invoice.issueDate)}
-              </TableCell>
+                  <TableCell>
+                    <Stack
+                      direction="row"
+                      spacing={1.25}
+                      sx={{ alignItems: "center" }}
+                    >
+                      <Avatar
+                        sx={{
+                          bgcolor: "rgba(20, 103, 193, 0.12)",
+                          color: "secondary.main",
+                          fontSize: 13,
+                          fontWeight: 800,
+                          height: 36,
+                          width: 36,
+                        }}
+                      >
+                        {invoice.customer.initials}
+                      </Avatar>
 
-              <TableCell sx={{ color: "text.secondary", whiteSpace: "nowrap" }}>
-                {formatInvoiceDate(invoice.dueDate)}
-              </TableCell>
+                      <Stack spacing={0.1}>
+                        <Typography variant="body2" sx={{ fontWeight: 700 }}>
+                          {invoice.customer.name}
+                        </Typography>
+                        <Typography color="text.secondary" variant="caption">
+                          {invoice.customer.email}
+                        </Typography>
+                      </Stack>
+                    </Stack>
+                  </TableCell>
 
-              <TableCell align="right">
-                <Stack spacing={0.1}>
-                  <Typography
-                    variant="body2"
-                    sx={{ fontWeight: 800, whiteSpace: "nowrap" }}
+                  <TableCell
+                    sx={{ color: "text.secondary", whiteSpace: "nowrap" }}
                   >
-                    {formatInvoiceCurrency(invoice.total, invoice.currency)}
-                  </Typography>
-                  <Typography color="text.secondary" variant="caption">
-                    {invoice.currency}
-                  </Typography>
-                </Stack>
-              </TableCell>
+                    {formatInvoiceDate(invoice.issueDate)}
+                  </TableCell>
 
-              <TableCell>
-                <InvoiceStatusChip status={invoice.status} />
-              </TableCell>
-
-              <TableCell align="right">
-                <Tooltip title="Previsualizar factura">
-                  <IconButton
-                    aria-label={`Previsualizar ${invoice.number}`}
-                    color="primary"
-                    onClick={() => onPreview(invoice.id)}
+                  <TableCell
+                    sx={{ color: "text.secondary", whiteSpace: "nowrap" }}
                   >
-                    <Icon icon="solar:eye-linear" width={21} />
-                  </IconButton>
-                </Tooltip>
-              </TableCell>
-            </TableRow>
-          ))}
+                    {formatInvoiceDate(invoice.dueDate)}
+                  </TableCell>
+
+                  <TableCell align="right">
+                    <Stack spacing={0.1}>
+                      <Typography
+                        variant="body2"
+                        sx={{ fontWeight: 800, whiteSpace: "nowrap" }}
+                      >
+                        {formatInvoiceCurrency(invoice.total, invoice.currency)}
+                      </Typography>
+                      <Typography color="text.secondary" variant="caption">
+                        {invoice.currency}
+                      </Typography>
+                    </Stack>
+                  </TableCell>
+
+                  <TableCell>
+                    <InvoiceStatusChip status={invoice.status} />
+                  </TableCell>
+
+                  <TableCell align="right">
+                    <Tooltip title="Previsualizar factura">
+                      <IconButton
+                        aria-label={`Previsualizar ${invoice.number}`}
+                        color="primary"
+                        onClick={() => onPreview(invoice.id)}
+                      >
+                        <AppIcon icon="solar:eye-linear" width={21} />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))}
         </TableBody>
       </Table>
     </TableContainer>

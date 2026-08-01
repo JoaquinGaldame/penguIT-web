@@ -1,18 +1,52 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { lazy } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-// Pages
-import { LoginPage } from '../../features/auth';
-import { DashboardPage } from '../../features/dashboard';
-import { OrdersPage } from '../../features/orders';
-import { CreateInvoicePage, InvoiceListPage } from "../../features/invoice";
-import { CreateProductPage, ProductListPage } from '../../features/products';
+import { AuthLayout, MainLayout } from "../../layouts";
+import { GuestRoute } from "./GuestRoute";
+import { getNavigationLeaves } from "./navigationConfig";
+import { paths } from "./paths";
+import { ProtectedRoute } from "./ProtectedRoute";
 
-import { AuthLayout, MainLayout } from '../../layouts';
-import { ComingSoonPage } from '../../shared/pages/ComingSoonPage';
-import { GuestRoute } from './GuestRoute';
-import { getNavigationLeaves } from './navigationConfig';
-import { paths } from './paths';
-import { ProtectedRoute } from './ProtectedRoute';
+const LoginPage = lazy(() =>
+  import("../../features/auth/pages/LoginPage").then((module) => ({
+    default: module.LoginPage,
+  })),
+);
+const DashboardPage = lazy(() =>
+  import("../../features/dashboard/pages/DashboardPage").then((module) => ({
+    default: module.DashboardPage,
+  })),
+);
+const OrdersPage = lazy(() =>
+  import("../../features/orders/pages/OrdersPage").then((module) => ({
+    default: module.OrdersPage,
+  })),
+);
+const InvoiceListPage = lazy(() =>
+  import("../../features/invoice/pages/InvoiceListPage").then((module) => ({
+    default: module.InvoiceListPage,
+  })),
+);
+const CreateInvoicePage = lazy(() =>
+  import("../../features/invoice/pages/CreateInvoicePage").then((module) => ({
+    default: module.CreateInvoicePage,
+  })),
+);
+const ProductListPage = lazy(() =>
+  import("../../features/products/pages/ProductListPage").then((module) => ({
+    default: module.ProductListPage,
+  })),
+);
+const CreateProductPage = lazy(() =>
+  import("../../features/products/pages/CreateProductPage").then((module) => ({
+    default: module.CreateProductPage,
+  })),
+);
+const ComingSoonPage = lazy(() =>
+  import("../../shared/pages/ComingSoonPage/ComingSoonPage").then((module) => ({
+    default: module.ComingSoonPage,
+  })),
+);
 
 const upcomingNavigationItems = getNavigationLeaves().filter(
   (item) =>
@@ -20,7 +54,7 @@ const upcomingNavigationItems = getNavigationLeaves().filter(
     item.path !== paths.orders &&
     item.path !== paths.inventoryProducts &&
     item.path !== paths.inventoryProductNew &&
-    item.path !== paths.billing
+    item.path !== paths.billing,
 );
 
 export function AppRouter() {
@@ -49,7 +83,7 @@ export function AppRouter() {
               path={paths.inventoryProducts}
               element={<ProductListPage />}
             />
-             <Route path={paths.billing} element={<InvoiceListPage />} />
+            <Route path={paths.billing} element={<InvoiceListPage />} />
             <Route
               path={paths.billingInvoiceNew}
               element={<CreateInvoicePage />}
@@ -77,7 +111,7 @@ export function AppRouter() {
                   <ComingSoonPage
                     title={item.label}
                     description={item.description}
-                    icon={item.icon ?? 'solar:document-linear'}
+                    icon={item.icon ?? "solar:document-linear"}
                   />
                 }
               />

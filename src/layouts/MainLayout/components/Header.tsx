@@ -1,4 +1,3 @@
-import { Icon } from '@iconify/react';
 import {
   AppBar,
   Badge,
@@ -8,16 +7,17 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-} from '@mui/material';
-import { useLocation } from 'react-router-dom';
+} from "@mui/material";
+import { useLocation } from "react-router-dom";
 
-import { findNavigationItem } from '../../../app/router/navigationConfig';
+import { findNavigationItem } from "../../../app/router/navigationConfig";
+import { AppIcon } from "../../../shared/components/AppIcon";
 import {
   SIDEBAR_COLLAPSED_WIDTH,
   SIDEBAR_TRANSITION_DURATION,
   SIDEBAR_WIDTH,
-} from './Sidebar';
-import { UserMenu } from './UserMenu';
+} from "./Sidebar";
+import { UserMenu } from "./UserMenu";
 
 interface HeaderProps {
   collapsed: boolean;
@@ -40,13 +40,13 @@ export function Header({
       color="inherit"
       elevation={0}
       sx={(theme) => ({
-        width: { xs: '100%', md: `calc(100% - ${sidebarWidth}px)` },
+        width: { xs: "100%", md: `calc(100% - ${sidebarWidth}px)` },
         ml: { xs: 0, md: `${sidebarWidth}px` },
         borderBottom: 1,
-        borderColor: 'divider',
-        backgroundColor: 'rgba(255, 255, 255, 0.92)',
-        backdropFilter: 'blur(12px)',
-        transition: theme.transitions.create(['width', 'margin-left'], {
+        borderColor: "divider",
+        backgroundColor: "rgba(255, 255, 255, 0.92)",
+        backdropFilter: "blur(12px)",
+        transition: theme.transitions.create(["width", "margin-left"], {
           easing: theme.transitions.easing.easeInOut,
           duration: SIDEBAR_TRANSITION_DURATION,
         }),
@@ -61,45 +61,45 @@ export function Header({
         <IconButton
           onClick={onOpenMobile}
           aria-label="Abrir menú de navegación"
-          sx={{ display: { md: 'none' }, mr: 1 }}
+          sx={{ display: { md: "none" }, mr: 1 }}
         >
-          <Icon icon="solar:hamburger-menu-linear" width={24} />
+          <AppIcon icon="solar:hamburger-menu-linear" width={24} />
         </IconButton>
 
-        <Tooltip title={collapsed ? 'Expandir menú' : 'Contraer menú'}>
+        <Tooltip title={collapsed ? "Expandir menú" : "Contraer menú"}>
           <IconButton
             onClick={onToggleCollapsed}
-            aria-label={collapsed ? 'Expandir menú' : 'Contraer menú'}
-            sx={{ display: { xs: 'none', md: 'inline-flex' }, mr: 1 }}
+            aria-label={collapsed ? "Expandir menú" : "Contraer menú"}
+            sx={{ display: { xs: "none", md: "inline-flex" }, mr: 1 }}
           >
-            <Icon icon="solar:hamburger-menu-linear" width={24} />
+            <AppIcon icon="solar:hamburger-menu-linear" width={24} />
           </IconButton>
         </Tooltip>
 
         <Box sx={{ minWidth: 0 }}>
           <Typography variant="h6" color="text.primary" noWrap>
-            {currentItem?.label ?? 'PenguinTech'}
+            {currentItem?.label ?? "PenguinTech"}
           </Typography>
 
           <Typography
             variant="caption"
             color="text.secondary"
             noWrap
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: "none", sm: "block" } }}
           >
-            {currentItem?.description ?? 'Gestión gastronómica'}
+            {currentItem?.description ?? "Gestión gastronómica"}
           </Typography>
         </Box>
 
         <Stack
           direction="row"
           spacing={0.75}
-          sx={{ ml: 'auto', alignItems: 'center' }}
+          sx={{ ml: "auto", alignItems: "center" }}
         >
           <Tooltip title="Notificaciones">
             <IconButton aria-label="Ver notificaciones">
               <Badge color="error" variant="dot" overlap="circular">
-                <Icon icon="solar:bell-linear" width={23} />
+                <AppIcon icon="solar:bell-linear" width={23} />
               </Badge>
             </IconButton>
           </Tooltip>

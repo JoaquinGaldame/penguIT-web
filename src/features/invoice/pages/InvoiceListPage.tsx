@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { Icon } from "@iconify/react";
 import {
   Alert,
   Box,
   Button,
+  LinearProgress,
   Paper,
   Stack,
   Typography,
@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 
 import { paths } from "../../../app/router/paths";
 import { useAppDispatch, useAppSelector } from "../../../app/store/hooks";
+import { useDebouncedValue } from "../../../shared/hooks/useDebouncedValue";
+import { AppIcon } from "../../../shared/components/AppIcon";
 import { useGetInvoicesQuery } from "../api/InvoicesApi";
 import { InvoicesEmptyState } from "../components/InvoicesEmptyState";
 import { InvoicesFilters } from "../components/InvoicesFilters";
@@ -34,6 +36,8 @@ export function InvoiceListPage() {
   const { search, status, limit, offset } = useAppSelector(
     (state) => state.invoices,
   );
+  const [searchInput, setSearchInput] = useState(search);
+  const debouncedSearch = useDebouncedValue(searchInput, 300);
   const [selectedInvoiceIds, setSelectedInvoiceIds] = useState<Set<string>>(
     () => new Set(),
   );
@@ -46,6 +50,12 @@ export function InvoiceListPage() {
 
   const invoices = useMemo(() => data?.invoices ?? [], [data?.invoices]);
   const total = data?.total ?? 0;
+
+  useEffect(() => {
+    if (debouncedSearch === searchInput && debouncedSearch !== search) {
+      dispatch(setInvoicesSearch(debouncedSearch));
+    }
+  }, [debouncedSearch, dispatch, search, searchInput]);
 
   useEffect(() => {
     if (total > 0 && offset >= total) {
@@ -78,7 +88,10 @@ export function InvoiceListPage() {
     setSelectedInvoiceIds(new Set());
   };
 
-  const hasActiveFilters = search.trim().length > 0 || status !== "all";
+  const hasActiveFilters = searchInput.trim().length > 0 || status !== "all";
+  const hasData = data !== undefined;
+  const hasInitialError = isError && !hasData;
+  const hasRefetchError = isError && hasData;
 
   return (
     <Stack spacing={2.5}>
@@ -103,13 +116,13 @@ export function InvoiceListPage() {
         <Button
           variant="contained"
           onClick={() => navigate(paths.billingInvoiceNew)}
-          startIcon={<Icon icon="solar:add-circle-linear" width={20} />}
+          startIcon={<AppIcon icon="solar:add-circle-linear" width={20} />}
         >
           Crear factura
         </Button>
       </Stack>
 
-      {isError ? (
+      {hasInitialError ? (
         <Alert
           severity="error"
           action={
@@ -121,7 +134,23 @@ export function InvoiceListPage() {
           No pudimos cargar las facturas. Intentá nuevamente.
         </Alert>
       ) : (
-        <Paper variant="outlined" sx={{ overflow: "hidden" }}>
+        <Paper
+          variant="outlined"
+          sx={{ overflow: "hidden", position: "relative" }}
+        >
+          {isFetching && !isLoading && (
+            <LinearProgress
+              aria-label="Actualizando facturas"
+              sx={{
+                left: 0,
+                position: "absolute",
+                right: 0,
+                top: 0,
+                zIndex: 1,
+              }}
+            />
+          )}
+
           <InvoicesTabs
             value={status}
             onChange={(value) => {
@@ -131,21 +160,29 @@ export function InvoiceListPage() {
           />
 
           <InvoicesFilters
-            search={search}
+            search={searchInput}
             hasActiveFilters={hasActiveFilters}
             onSearchChange={(value) => {
               clearSelection();
-              dispatch(setInvoicesSearch(value));
+              setSearchInput(value);
             }}
             onReset={() => {
               clearSelection();
+              setSearchInput("");
               dispatch(resetInvoicesFilters());
             }}
           />
 
-          {isFetching || isLoading ? (
+          {hasRefetchError && (
+            <Alert severity="warning" role="status" sx={{ mx: 2, mb: 2 }}>
+              No pudimos actualizar las facturas. Se mantienen visibles los
+              últimos datos disponibles.
+            </Alert>
+          )}
+
+          {isLoading ? (
             <InvoicesTable
-              invoices={invoices}
+              invoices={[]}
               isLoading
               selectedInvoiceIds={selectedInvoiceIds}
               onSelectAll={selectAllInvoices}

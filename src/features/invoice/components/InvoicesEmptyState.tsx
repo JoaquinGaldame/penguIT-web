@@ -1,5 +1,6 @@
-import { Icon } from "@iconify/react";
 import { Box, Stack, Typography } from "@mui/material";
+
+import { AppIcon } from "../../../shared/components/AppIcon";
 
 interface InvoicesEmptyStateProps {
   hasActiveFilters: boolean;
@@ -30,7 +31,7 @@ export function InvoicesEmptyState({
           width: 64,
         }}
       >
-        <Icon icon="solar:bill-list-linear" width={32} />
+        <AppIcon icon="solar:bill-list-linear" width={32} />
       </Box>
 
       <Typography variant="h6">

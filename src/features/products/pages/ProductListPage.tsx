@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
 import {
   Alert,
   AlertTitle,
@@ -12,27 +12,24 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-import { paths } from '../../../app/router/paths';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '../../../app/store/hooks';
-import { useGetProductsQuery } from '../api/ProductsApi';
-import { ProductsEmptyState } from '../components/ProductsEmptyState';
-import { ProductsFilters } from '../components/ProductsFilters';
-import { ProductsTable } from '../components/ProductsTable';
+import { paths } from "../../../app/router/paths";
+import { useAppDispatch, useAppSelector } from "../../../app/store/hooks";
+import { useGetProductsQuery } from "../api/ProductsApi";
+import { ProductsEmptyState } from "../components/ProductsEmptyState";
+import { ProductsFilters } from "../components/ProductsFilters";
+import { ProductsTable } from "../components/ProductsTable";
 import {
   resetProductsFilters,
   setProductsCategory,
   setProductsSearch,
   setProductsStatus,
-} from '../store/ProductsSlice';
-import { refreshProducts } from '../store/ProductsThunks';
-import { PRODUCT_CATEGORY_LABELS } from '../types/Product.types';
-import { getProductStockStatus } from '../utils/productFormatters';
+} from "../store/ProductsSlice";
+import { refreshProducts } from "../store/ProductsThunks";
+import { PRODUCT_CATEGORY_LABELS } from "../types/Product.types";
+import { getProductStockStatus } from "../utils/productFormatters";
 
 export function ProductListPage() {
   const dispatch = useAppDispatch();
@@ -40,30 +37,22 @@ export function ProductListPage() {
   const { search, category, status } = useAppSelector(
     (state) => state.products,
   );
-  const {
-    data,
-    isError,
-    isFetching,
-    isLoading,
-  } = useGetProductsQuery();
+  const { data, isError, isFetching, isLoading } = useGetProductsQuery();
 
-  const products = useMemo(
-    () => data?.products ?? [],
-    [data?.products],
-  );
+  const products = useMemo(() => data?.products ?? [], [data?.products]);
   const filteredProducts = useMemo(() => {
-    const term = search.trim().toLocaleLowerCase('es');
+    const term = search.trim().toLocaleLowerCase("es");
 
     return products.filter((product) => {
-      if (category !== 'all' && product.category !== category) {
+      if (category !== "all" && product.category !== category) {
         return false;
       }
 
-      if (status === 'active' && !product.isActive) {
+      if (status === "active" && !product.isActive) {
         return false;
       }
 
-      if (status === 'inactive' && product.isActive) {
+      if (status === "inactive" && product.isActive) {
         return false;
       }
 
@@ -72,11 +61,11 @@ export function ProductListPage() {
       }
 
       return (
-        product.name.toLocaleLowerCase('es').includes(term) ||
-        product.sku.toLocaleLowerCase('es').includes(term) ||
-        product.description.toLocaleLowerCase('es').includes(term) ||
+        product.name.toLocaleLowerCase("es").includes(term) ||
+        product.sku.toLocaleLowerCase("es").includes(term) ||
+        product.description.toLocaleLowerCase("es").includes(term) ||
         PRODUCT_CATEGORY_LABELS[product.category]
-          .toLocaleLowerCase('es')
+          .toLocaleLowerCase("es")
           .includes(term)
       );
     });
@@ -85,23 +74,23 @@ export function ProductListPage() {
   const criticalProducts = useMemo(
     () =>
       products.filter(
-        (product) => getProductStockStatus(product) === 'critical',
+        (product) => getProductStockStatus(product) === "critical",
       ),
     [products],
   );
   const hasActiveFilters =
-    search.trim().length > 0 ||
-    category !== 'all' ||
-    status !== 'all';
+    search.trim().length > 0 || category !== "all" || status !== "all";
+  const hasInitialError = isError && data === undefined;
+  const hasRefetchError = isError && data !== undefined;
 
   return (
     <Stack spacing={2.5}>
       <Stack
-        direction={{ xs: 'column', sm: 'row' }}
+        direction={{ xs: "column", sm: "row" }}
         spacing={2}
         sx={{
-          alignItems: { xs: 'stretch', sm: 'flex-start' },
-          justifyContent: 'space-between',
+          alignItems: { xs: "stretch", sm: "flex-start" },
+          justifyContent: "space-between",
         }}
       >
         <Box>
@@ -114,11 +103,7 @@ export function ProductListPage() {
           </Typography>
         </Box>
 
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{ flexWrap: 'wrap' }}
-        >
+        <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap" }}>
           <Tooltip title="Disponible al conectar los movimientos de stock">
             <span>
               <Button
@@ -136,9 +121,7 @@ export function ProductListPage() {
           <Button
             variant="contained"
             onClick={() => navigate(paths.inventoryProductNew)}
-            startIcon={
-              <Icon icon="solar:add-circle-linear" width={20} />
-            }
+            startIcon={<Icon icon="solar:add-circle-linear" width={20} />}
           >
             Agregar producto
           </Button>
@@ -148,10 +131,10 @@ export function ProductListPage() {
       {!isLoading && criticalProducts.length > 0 && (
         <Alert severity="error" variant="outlined">
           <AlertTitle>
-            {criticalProducts.length}{' '}
+            {criticalProducts.length}{" "}
             {criticalProducts.length === 1
-              ? 'producto con stock crítico'
-              : 'productos con stock crítico'}
+              ? "producto con stock crítico"
+              : "productos con stock crítico"}
           </AlertTitle>
           Revisá los productos marcados en rojo antes de registrar nuevas
           ventas.
@@ -165,9 +148,7 @@ export function ProductListPage() {
           status={status}
           hasActiveFilters={hasActiveFilters}
           onSearchChange={(value) => dispatch(setProductsSearch(value))}
-          onCategoryChange={(value) =>
-            dispatch(setProductsCategory(value))
-          }
+          onCategoryChange={(value) => dispatch(setProductsCategory(value))}
           onStatusChange={(value) => dispatch(setProductsStatus(value))}
           onReset={() => dispatch(resetProductsFilters())}
         />
@@ -175,14 +156,18 @@ export function ProductListPage() {
 
       {isFetching && !isLoading && <LinearProgress />}
 
-      {isError ? (
+      {hasRefetchError && (
+        <Alert severity="warning" role="status">
+          No pudimos actualizar los productos. Se mantienen visibles los últimos
+          datos disponibles.
+        </Alert>
+      )}
+
+      {hasInitialError ? (
         <Alert
           severity="error"
           action={
-            <Button
-              color="inherit"
-              onClick={() => dispatch(refreshProducts())}
-            >
+            <Button color="inherit" onClick={() => dispatch(refreshProducts())}>
               Reintentar
             </Button>
           }

@@ -1,4 +1,3 @@
-import { Icon } from "@iconify/react";
 import {
   Box,
   IconButton,
@@ -8,6 +7,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+
+import { AppIcon } from "../../../shared/components/AppIcon";
 
 const rowsPerPageOptions = [5, 10, 25, 50];
 
@@ -128,7 +129,7 @@ function PaginationButton({
           onClick={onClick}
           size="small"
         >
-          <Icon icon={icon} width={21} />
+          <AppIcon icon={icon} width={21} />
         </IconButton>
       </span>
     </Tooltip>
