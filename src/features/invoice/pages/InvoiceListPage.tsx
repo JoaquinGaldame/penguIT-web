@@ -27,15 +27,6 @@ import {
   setInvoicesStatus,
 } from "../store/InvoicesSlice";
 import { refreshInvoices } from "../store/InvoicesThunks";
-import type { InvoiceStatusCounts } from "../types/Invoice.types";
-
-const emptyStatusCounts: InvoiceStatusCounts = {
-  all: 0,
-  paid: 0,
-  late: 0,
-  sent: 0,
-  draft: 0,
-};
 
 export function InvoiceListPage() {
   const dispatch = useAppDispatch();
@@ -55,7 +46,6 @@ export function InvoiceListPage() {
 
   const invoices = useMemo(() => data?.invoices ?? [], [data?.invoices]);
   const total = data?.total ?? 0;
-  const statusCounts = data?.statusCounts ?? emptyStatusCounts;
 
   useEffect(() => {
     if (total > 0 && offset >= total) {
@@ -134,7 +124,6 @@ export function InvoiceListPage() {
         <Paper variant="outlined" sx={{ overflow: "hidden" }}>
           <InvoicesTabs
             value={status}
-            counts={statusCounts}
             onChange={(value) => {
               clearSelection();
               dispatch(setInvoicesStatus(value));

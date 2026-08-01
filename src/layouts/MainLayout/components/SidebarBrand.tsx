@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { paths } from '../../../app/router/paths';
-import compactLogo from '../../../assets/logos/Logotipo.svg';
+import compactLogo from '../../../assets/logos/Logotipo.png';
 import expandedLogo from '../../../assets/logos/penguintech-logotipo.png';
 
 interface SidebarBrandProps {
