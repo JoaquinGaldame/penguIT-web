@@ -6,6 +6,8 @@ import type {
   GetInvoicesParams,
   GetInvoicesResponse,
   InvoiceStatusCounts,
+  CreateInvoiceRequest,
+  CreateInvoiceResponse
 } from "../types/Invoice.types";
 
 export const invoicesApi = createApi({
@@ -80,7 +82,18 @@ export const invoicesApi = createApi({
             ]
           : [{ type: "Invoice", id: "LIST" }],
     }),
+    createInvoice: builder.mutation<CreateInvoiceResponse, CreateInvoiceRequest>({
+      query: (invoice) => ({
+        url: "/invoices",
+        method: "POST",
+        body: invoice,
+      }),
+
+      invalidatesTags: [{ type: "Invoice", id: "LIST" }],
+    }),
   }),
 });
 
-export const { useGetInvoicesQuery } = invoicesApi;
+export const { 
+  useGetInvoicesQuery, 
+  useCreateInvoiceMutation } = invoicesApi;

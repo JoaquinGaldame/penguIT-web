@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
+import { invoicesApi } from "../api/InvoicesApi";
 import type {
   InvoicesState,
   InvoiceStatusFilter,
@@ -10,6 +11,9 @@ const initialState: InvoicesState = {
   status: "all",
   limit: 10,
   offset: 0,
+  createStatus: "idle",
+  createError: null,
+  createdInvoiceId: null,
 };
 
 const invoicesSlice = createSlice({
@@ -40,10 +44,39 @@ const invoicesSlice = createSlice({
       state.status = "all";
       state.offset = 0;
     },
+
+    resetInvoiceCreation: (state) => {
+      state.createStatus = "idle";
+      state.createError = null;
+      state.createdInvoiceId = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(invoicesApi.endpoints.createInvoice.matchPending, (state) => {
+        state.createStatus = "pending";
+        state.createError = null;
+        state.createdInvoiceId = null;
+      })
+      .addMatcher(
+        invoicesApi.endpoints.createInvoice.matchFulfilled,
+        (state, action) => {
+          state.createStatus = "succeeded";
+          state.createdInvoiceId = action.payload.invoice.id;
+        },
+      )
+      .addMatcher(
+        invoicesApi.endpoints.createInvoice.matchRejected,
+        (state, action) => {
+          state.createStatus = "failed";
+          state.createError = action.error.message ?? "No se pudo crear la factura";
+        },
+      );
   },
 });
 
 export const {
+  resetInvoiceCreation,
   resetInvoicesFilters,
   setInvoicesLimit,
   setInvoicesOffset,

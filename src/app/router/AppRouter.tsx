@@ -4,7 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { LoginPage } from '../../features/auth';
 import { DashboardPage } from '../../features/dashboard';
 import { OrdersPage } from '../../features/orders';
-import { InvoiceListPage } from "../../features/invoice";
+import { CreateInvoicePage, InvoiceListPage } from "../../features/invoice";
 import { CreateProductPage, ProductListPage } from '../../features/products';
 
 import { AuthLayout, MainLayout } from '../../layouts';
@@ -52,13 +52,7 @@ export function AppRouter() {
              <Route path={paths.billing} element={<InvoiceListPage />} />
             <Route
               path={paths.billingInvoiceNew}
-              element={
-                <ComingSoonPage
-                  title="Crear factura"
-                  description="El formulario de creación se incorporará en la próxima etapa."
-                  icon="solar:document-add-linear"
-                />
-              }
+              element={<CreateInvoicePage />}
             />
             <Route
               path="/billing/invoices/:invoiceId"

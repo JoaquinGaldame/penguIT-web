@@ -9,6 +9,9 @@ export interface InvoiceCustomer {
   name: string;
   email: string;
   initials: string;
+  taxId?: string;
+  address?: string;
+  city?: string;
 }
 
 export interface InvoiceLineItem {
@@ -51,12 +54,17 @@ export interface GetInvoicesResponse {
   statusCounts: InvoiceStatusCounts;
 }
 
+export interface GetInvoiceCustomersResponse {
+  customers: InvoiceCustomer[];
+}
+
 export interface CreateInvoiceRequest {
   customerId: string;
   issueDate: string;
   dueDate: string;
   currency: InvoiceCurrency;
   items: Omit<InvoiceLineItem, "id">[];
+  status: Extract<InvoiceStatus, "draft" | "sent">;
   notes?: string;
 }
 
@@ -69,6 +77,9 @@ export interface InvoicesState {
   status: InvoiceStatusFilter;
   limit: number;
   offset: number;
+  createStatus: "idle" | "pending" | "succeeded" | "failed";
+  createError: string | null;
+  createdInvoiceId: string | null;
 }
 
 export const INVOICE_STATUS_LABELS: Record<InvoiceStatus, string> = {
