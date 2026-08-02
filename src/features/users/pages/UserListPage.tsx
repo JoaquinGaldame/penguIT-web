@@ -94,52 +94,16 @@ export function UserListPage() {
     filters.view === "users" ? filteredUsers : filteredGroups;
 
   return (
-    <Stack spacing={2.5}>
-      <Box>
-        <Typography component="h1" variant="h4" sx={{ mb: 0.75 }}>
-          Usuarios
-        </Typography>
-        <Typography color="text.secondary">
-          Consultá los usuarios del sistema y sus grupos de acceso.
-        </Typography>
-      </Box>
-
-      {isFetching && !isLoading && <LinearProgress />}
-
-      {isError ? (
-        <Alert
-          severity="error"
-          action={
-            <Button color="inherit" onClick={() => dispatch(refreshUsers())}>
-              Reintentar
-            </Button>
-          }
-        >
-          No pudimos cargar la información de usuarios. Intentá nuevamente.
-        </Alert>
-      ) : isLoading ? (
-        <Skeleton variant="rounded" height={520} animation="wave" />
-      ) : (
-        <Paper variant="outlined" sx={{ overflow: "hidden" }}>
-          <UsersToolbar
-            search={filters.search}
-            view={filters.view}
-            activeFiltersCount={activeFiltersCount}
-            onSearchChange={(value) => dispatch(setUsersSearch(value))}
-            onFiltersOpen={() => dispatch(setUsersFiltersOpen(true))}
-            onViewChange={(view) => dispatch(setUsersView(view))}
-          />
-
-          {visibleItems.length === 0 ? (
-            <UsersEmptyState view={filters.view} />
-          ) : filters.view === "users" ? (
-            <UsersTable users={filteredUsers} groups={groups} />
-          ) : (
-            <UserGroupsTable groups={filteredGroups} />
-          )}
-        </Paper>
-      )}
-
+    <Box
+      sx={{
+        position: "relative",
+        display: "flex",
+        width: "100%",
+        height: "100%",
+        minHeight: 0,
+        overflow: "hidden",
+      }}
+    >
       <UsersFiltersDrawer
         open={filters.isFiltersOpen}
         view={filters.view}
@@ -156,6 +120,63 @@ export function UserListPage() {
         onGroupIdChange={(value) => dispatch(setUsersGroupId(value))}
         onGroupStatusChange={(value) => dispatch(setUserGroupStatus(value))}
       />
-    </Stack>
+
+      <Stack
+        spacing={2.5}
+        sx={{
+          flex: 1,
+          minWidth: 0,
+          minHeight: 0,
+          overflowY: "auto",
+          px: { xs: 2, sm: 3, lg: 4 },
+          py: { xs: 2.5, md: 4 },
+        }}
+      >
+        <Box>
+          <Typography component="h1" variant="h4" sx={{ mb: 0.75 }}>
+            Usuarios
+          </Typography>
+          <Typography color="text.secondary">
+            Consultá los usuarios del sistema y sus grupos de acceso.
+          </Typography>
+        </Box>
+
+        {isFetching && !isLoading && <LinearProgress />}
+
+        {isError ? (
+          <Alert
+            severity="error"
+            action={
+              <Button color="inherit" onClick={() => dispatch(refreshUsers())}>
+                Reintentar
+              </Button>
+            }
+          >
+            No pudimos cargar la información de usuarios. Intentá nuevamente.
+          </Alert>
+        ) : isLoading ? (
+          <Skeleton variant="rounded" height={520} animation="wave" />
+        ) : (
+          <Paper variant="outlined" sx={{ overflow: "hidden" }}>
+            <UsersToolbar
+              search={filters.search}
+              view={filters.view}
+              activeFiltersCount={activeFiltersCount}
+              onSearchChange={(value) => dispatch(setUsersSearch(value))}
+              onFiltersOpen={() => dispatch(setUsersFiltersOpen(true))}
+              onViewChange={(view) => dispatch(setUsersView(view))}
+            />
+
+            {visibleItems.length === 0 ? (
+              <UsersEmptyState view={filters.view} />
+            ) : filters.view === "users" ? (
+              <UsersTable users={filteredUsers} groups={groups} />
+            ) : (
+              <UserGroupsTable groups={filteredGroups} />
+            )}
+          </Paper>
+        )}
+      </Stack>
+    </Box>
   );
 }

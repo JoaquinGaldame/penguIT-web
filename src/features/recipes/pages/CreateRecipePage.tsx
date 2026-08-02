@@ -32,7 +32,18 @@ export function CreateRecipePage() {
   };
 
   return (
-    <Stack spacing={3}>
+    <Stack
+      spacing={3}
+      sx={{
+        width: "100%",
+        height: "100%",
+        minHeight: 0,
+        overflowY: "auto",
+        px: { xs: 2, sm: 3, lg: 4 },
+        py: { xs: 2.5, md: 4 },
+        "@media print": { height: "auto", overflow: "visible", p: 0 },
+      }}
+    >
       <Box>
         <Breadcrumbs sx={{ mb: 1 }}>
           <Link component="button" onClick={returnToRecipes}>

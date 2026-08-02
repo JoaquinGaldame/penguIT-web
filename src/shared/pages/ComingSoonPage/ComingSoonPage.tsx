@@ -1,8 +1,8 @@
-import { Icon } from '@iconify/react';
-import { Box, Button, Paper, Stack, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Icon } from "@iconify/react";
+import { Box, Button, Paper, Stack, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
-import { paths } from '../../../app/router/paths';
+import { paths } from "../../../app/router/paths";
 
 interface ComingSoonPageProps {
   title: string;
@@ -19,44 +19,47 @@ export function ComingSoonPage({
     <Paper
       variant="outlined"
       sx={{
-        display: 'grid',
-        placeItems: 'center',
-        minHeight: { xs: 460, md: 560 },
+        display: "grid",
+        placeItems: "center",
+        width: "100%",
+        height: "100%",
+        minHeight: 0,
         p: 3,
-        overflow: 'hidden',
-        position: 'relative',
+        overflow: "hidden",
+        position: "relative",
+        "@media print": { height: "auto", minHeight: 460 },
       }}
     >
       <Box
         sx={{
-          position: 'absolute',
+          position: "absolute",
           top: -120,
           right: -100,
           width: 280,
           height: 280,
-          borderRadius: '50%',
-          bgcolor: 'rgba(74, 144, 226, 0.08)',
+          borderRadius: "50%",
+          bgcolor: "rgba(74, 144, 226, 0.08)",
         }}
       />
 
       <Stack
         spacing={2}
         sx={{
-          position: 'relative',
+          position: "relative",
           maxWidth: 520,
-          alignItems: 'center',
-          textAlign: 'center',
+          alignItems: "center",
+          textAlign: "center",
         }}
       >
         <Box
           sx={{
-            display: 'grid',
-            placeItems: 'center',
+            display: "grid",
+            placeItems: "center",
             width: 82,
             height: 82,
             borderRadius: 3,
-            bgcolor: 'rgba(20, 103, 193, 0.10)',
-            color: 'secondary.main',
+            bgcolor: "rgba(20, 103, 193, 0.10)",
+            color: "secondary.main",
           }}
         >
           <Icon icon={icon} width={42} />

@@ -72,14 +72,13 @@ export function MainLayout() {
         <Box
           sx={{
             width: "100%",
-            maxWidth: 1600,
-            mx: "auto",
-            px: { xs: 2, sm: 3, lg: 4 },
-            py: { xs: 2.5, md: 4 },
+            height: { xs: "calc(100dvh - 68px)", md: "calc(100dvh - 76px)" },
+            minHeight: 0,
+            overflow: "hidden",
             "@media print": {
-              maxWidth: "none",
-              m: 0,
-              p: 0,
+              height: "auto",
+              minHeight: "auto",
+              overflow: "visible",
             },
           }}
         >
