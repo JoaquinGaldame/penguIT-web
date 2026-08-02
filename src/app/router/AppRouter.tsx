@@ -49,6 +49,21 @@ const CreateProductPage = lazy(() =>
     default: module.CreateProductPage,
   })),
 );
+const RecipeListPage = lazy(() =>
+  import("../../features/recipes/pages/RecipeListPage").then((module) => ({
+    default: module.RecipeListPage,
+  })),
+);
+const CreateRecipePage = lazy(() =>
+  import("../../features/recipes/pages/CreateRecipePage").then((module) => ({
+    default: module.CreateRecipePage,
+  })),
+);
+const EditRecipePage = lazy(() =>
+  import("../../features/recipes/pages/EditRecipePage").then((module) => ({
+    default: module.EditRecipePage,
+  })),
+);
 const ComingSoonPage = lazy(() =>
   import("../../shared/pages/ComingSoonPage/ComingSoonPage").then((module) => ({
     default: module.ComingSoonPage,
@@ -61,6 +76,7 @@ const upcomingNavigationItems = getNavigationLeaves().filter(
     item.path !== paths.orders &&
     item.path !== paths.inventoryProducts &&
     item.path !== paths.inventoryProductNew &&
+    item.path !== paths.recipes &&
     item.path !== paths.billing,
 );
 
@@ -90,6 +106,9 @@ export function AppRouter() {
               path={paths.inventoryProducts}
               element={<ProductListPage />}
             />
+            <Route path={paths.recipeNew} element={<CreateRecipePage />} />
+            <Route path="/recipes/:recipeId/edit" element={<EditRecipePage />} />
+            <Route path={paths.recipes} element={<RecipeListPage />} />
             <Route path={paths.billing} element={<InvoiceListPage />} />
             <Route
               path={paths.billingInvoiceNew}

@@ -14,6 +14,8 @@ import { productsApi } from '../../features/products/api/ProductsApi';
 import { productsReducer } from '../../features/products/store/ProductsSlice';
 import { clientsApi } from '../../features/clients/api/ClientsApi';
 import { clientsReducer } from '../../features/clients/store/ClientsSlice';
+import { recipesApi } from '../../features/recipes/api/RecipesApi';
+import { recipesReducer } from '../../features/recipes/store/RecipesSlice';
 
 export const store = configureStore({
   reducer: {
@@ -22,11 +24,13 @@ export const store = configureStore({
     invoices: invoicesReducer,
     products: productsReducer,
     clients: clientsReducer,
+    recipes: recipesReducer,
     [authApi.reducerPath]: authApi.reducer,
     [ordersApi.reducerPath]: ordersApi.reducer,
     [invoicesApi.reducerPath]: invoicesApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [clientsApi.reducerPath]: clientsApi.reducer,
+    [recipesApi.reducerPath]: recipesApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
@@ -35,7 +39,8 @@ export const store = configureStore({
       ordersApi.middleware,
       invoicesApi.middleware,
       productsApi.middleware,
-      clientsApi.middleware
+      clientsApi.middleware,
+      recipesApi.middleware,
     ),
 
   devTools: import.meta.env.DEV,

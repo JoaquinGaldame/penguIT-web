@@ -5,6 +5,8 @@ export const paths = {
   inventoryProducts: '/inventory/products',
   inventoryProductNew: '/inventory/products/new',
   recipes: '/recipes',
+  recipeNew: '/recipes/new',
+  recipeEdit: (recipeId: string) => `/recipes/${recipeId}/edit`,
   purchases: '/purchases',
   billing: '/billing',
   billingInvoiceNew: "/billing/invoices/new",
