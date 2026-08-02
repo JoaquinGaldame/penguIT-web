@@ -13,6 +13,7 @@ export const apiTagTypes = [
   "Order",
   "Product",
   "Recipe",
+  "SystemSettings",
   "User",
   "UserGroup",
 ] as const;

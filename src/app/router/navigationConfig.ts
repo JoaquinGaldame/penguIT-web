@@ -100,6 +100,12 @@ export const navigationConfig: NavigationItem[] = [
         description: 'Parámetros generales del negocio',
         children: [
           {
+            id: 'administration-system',
+            label: 'Sistema',
+            path: paths.administrationSystem,
+            description: 'Configuración general de la aplicación',
+          },
+          {
             id: 'administration-business',
             label: 'Datos del negocio',
             path: paths.administrationBusiness,

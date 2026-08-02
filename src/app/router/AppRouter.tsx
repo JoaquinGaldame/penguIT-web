@@ -74,6 +74,11 @@ const CreateUserPage = lazy(() =>
     default: module.CreateUserPage,
   })),
 );
+const SystemSettingsPage = lazy(() =>
+  import("../../features/system-settings/pages/SystemSettingsPage").then(
+    (module) => ({ default: module.SystemSettingsPage }),
+  ),
+);
 const ComingSoonPage = lazy(() =>
   import("../../shared/pages/ComingSoonPage/ComingSoonPage").then((module) => ({
     default: module.ComingSoonPage,
@@ -89,7 +94,8 @@ const upcomingNavigationItems = getNavigationLeaves().filter(
     item.path !== paths.recipes &&
     item.path !== paths.billing &&
     item.path !== paths.administrationUsers &&
-    item.path !== paths.administrationUserNew,
+    item.path !== paths.administrationUserNew &&
+    item.path !== paths.administrationSystem,
 );
 
 export function AppRouter() {
@@ -144,6 +150,10 @@ export function AppRouter() {
             <Route
               path={paths.administrationUserNew}
               element={<CreateUserPage />}
+            />
+            <Route
+              path={paths.administrationSystem}
+              element={<SystemSettingsPage />}
             />
 
             {upcomingNavigationItems.map((item) => (

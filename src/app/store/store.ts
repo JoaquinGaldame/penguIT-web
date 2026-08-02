@@ -10,6 +10,7 @@ import { invoicesReducer } from "../../features/invoice/store/InvoicesSlice";
 import { productsReducer } from "../../features/products/store/ProductsSlice";
 import { clientsReducer } from "../../features/clients/store/ClientsSlice";
 import { recipesReducer } from "../../features/recipes/store/RecipesSlice";
+import { systemSettingsReducer } from "../../features/system-settings/store/SystemSettingsSlice";
 import { usersReducer } from "../../features/users/store/UserSlice";
 import { baseApi } from "../api/baseApi";
 
@@ -21,6 +22,7 @@ export const store = configureStore({
     products: productsReducer,
     clients: clientsReducer,
     recipes: recipesReducer,
+    systemSettings: systemSettingsReducer,
     users: usersReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
