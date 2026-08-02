@@ -58,6 +58,10 @@ export function SidebarItem({
 
   const handleGroupClick = (event: MouseEvent<HTMLElement>) => {
     if (collapsed && level === 0) {
+      if (!anchorEl && openItems[0] !== item.id) {
+        onToggleItem(item.id, level);
+      }
+
       setPopperState({
         pathname,
         anchorEl: anchorEl ? null : event.currentTarget,
