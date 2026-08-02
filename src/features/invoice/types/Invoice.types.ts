@@ -54,6 +54,10 @@ export interface GetInvoicesResponse {
   statusCounts: InvoiceStatusCounts;
 }
 
+export interface GetInvoiceResponse {
+  invoice: Invoice;
+}
+
 export interface GetInvoiceCustomersResponse {
   customers: InvoiceCustomer[];
 }

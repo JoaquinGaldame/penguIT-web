@@ -1,6 +1,6 @@
-import { Drawer } from '@mui/material';
+import { Drawer } from "@mui/material";
 
-import { SidebarContent } from './SidebarContent';
+import { SidebarContent } from "./SidebarContent";
 
 export const SIDEBAR_WIDTH = 272;
 export const SIDEBAR_COLLAPSED_WIDTH = 84;
@@ -29,10 +29,11 @@ export function Sidebar({
         onClose={onCloseMobile}
         ModalProps={{ keepMounted: true }}
         sx={{
-          display: { xs: 'block', md: 'none' },
-          '& .MuiDrawer-paper': {
+          display: { xs: "block", md: "none" },
+          "@media print": { display: "none" },
+          "& .MuiDrawer-paper": {
             width: SIDEBAR_WIDTH,
-            boxSizing: 'border-box',
+            boxSizing: "border-box",
           },
         }}
       >
@@ -48,19 +49,20 @@ export function Sidebar({
         variant="permanent"
         open
         sx={(theme) => ({
-          display: { xs: 'none', md: 'block' },
+          display: { xs: "none", md: "block" },
+          "@media print": { display: "none" },
           width: desktopWidth,
           flexShrink: 0,
-          transition: theme.transitions.create('width', {
+          transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.easeInOut,
             duration: SIDEBAR_TRANSITION_DURATION,
           }),
-          '& .MuiDrawer-paper': {
+          "& .MuiDrawer-paper": {
             width: desktopWidth,
-            boxSizing: 'border-box',
-            overflowX: 'hidden',
-            borderRightColor: 'divider',
-            transition: theme.transitions.create('width', {
+            boxSizing: "border-box",
+            overflowX: "hidden",
+            borderRightColor: "divider",
+            transition: theme.transitions.create("width", {
               easing: theme.transitions.easing.easeInOut,
               duration: SIDEBAR_TRANSITION_DURATION,
             }),

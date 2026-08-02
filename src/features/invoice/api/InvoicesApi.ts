@@ -5,6 +5,7 @@ import { invoicesMock } from "../data/InvoicesMock";
 import type {
   GetInvoicesParams,
   GetInvoicesResponse,
+  GetInvoiceResponse,
   InvoiceStatusCounts,
   CreateInvoiceRequest,
   CreateInvoiceResponse
@@ -82,6 +83,33 @@ export const invoicesApi = createApi({
             ]
           : [{ type: "Invoice", id: "LIST" }],
     }),
+    getInvoice: builder.query<GetInvoiceResponse, string>({
+      async queryFn(invoiceId) {
+        await new Promise((resolve) => {
+          window.setTimeout(resolve, 450);
+        });
+
+        const invoice = invoicesMock.find((item) => item.id === invoiceId);
+
+        if (!invoice) {
+          return {
+            error: {
+              status: 404,
+              data: { message: "Factura no encontrada." },
+            },
+          };
+        }
+
+        return { data: { invoice } };
+      },
+
+      // Al conectar el backend, reemplazar queryFn por:
+      // query: (invoiceId) => `/invoices/${invoiceId}`,
+
+      providesTags: (_result, _error, invoiceId) => [
+        { type: "Invoice", id: invoiceId },
+      ],
+    }),
     createInvoice: builder.mutation<CreateInvoiceResponse, CreateInvoiceRequest>({
       query: (invoice) => ({
         url: "/invoices",
@@ -96,4 +124,5 @@ export const invoicesApi = createApi({
 
 export const { 
   useGetInvoicesQuery, 
+  useGetInvoiceQuery,
   useCreateInvoiceMutation } = invoicesApi;

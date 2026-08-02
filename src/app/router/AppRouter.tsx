@@ -32,6 +32,13 @@ const CreateInvoicePage = lazy(() =>
     default: module.CreateInvoicePage,
   })),
 );
+
+const InvoicePreviewPage = lazy(() =>
+  import("../../features/invoice/pages/InvoicePreview").then((module) => ({
+    default: module.InvoicePreview,
+  })),
+);
+
 const ProductListPage = lazy(() =>
   import("../../features/products/pages/ProductListPage").then((module) => ({
     default: module.ProductListPage,
@@ -90,13 +97,7 @@ export function AppRouter() {
             />
             <Route
               path="/billing/invoices/:invoiceId"
-              element={
-                <ComingSoonPage
-                  title="Vista previa de factura"
-                  description="La vista previa se incorporará en la próxima etapa."
-                  icon="solar:document-text-linear"
-                />
-              }
+              element={<InvoicePreviewPage />}
             />
             <Route
               path={paths.administration}

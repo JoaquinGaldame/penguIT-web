@@ -50,6 +50,7 @@ export function Header({
           easing: theme.transitions.easing.easeInOut,
           duration: SIDEBAR_TRANSITION_DURATION,
         }),
+        "@media print": { display: "none" },
       })}
     >
       <Toolbar

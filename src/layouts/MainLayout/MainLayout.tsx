@@ -27,6 +27,10 @@ export function MainLayout() {
       sx={{
         bgcolor: "background.default",
         minHeight: "100vh",
+        "@media print": {
+          bgcolor: "common.white",
+          minHeight: "auto",
+        },
       }}
     >
       <Header
@@ -51,9 +55,19 @@ export function MainLayout() {
             easing: theme.transitions.easing.easeInOut,
             duration: SIDEBAR_TRANSITION_DURATION,
           }),
+          "@media print": {
+            minHeight: "auto",
+            marginLeft: "0 !important",
+            transition: "none",
+          },
         })}
       >
-        <Toolbar sx={{ minHeight: { xs: 68, md: 76 } }} />
+        <Toolbar
+          sx={{
+            minHeight: { xs: 68, md: 76 },
+            "@media print": { display: "none" },
+          }}
+        />
 
         <Box
           sx={{
@@ -62,6 +76,11 @@ export function MainLayout() {
             mx: "auto",
             px: { xs: 2, sm: 3, lg: 4 },
             py: { xs: 2.5, md: 4 },
+            "@media print": {
+              maxWidth: "none",
+              m: 0,
+              p: 0,
+            },
           }}
         >
           <Suspense fallback={<RouteLoadingFallback />}>
