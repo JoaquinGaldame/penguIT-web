@@ -64,6 +64,11 @@ const EditRecipePage = lazy(() =>
     default: module.EditRecipePage,
   })),
 );
+const UserListPage = lazy(() =>
+  import("../../features/users/pages/UserListPage").then((module) => ({
+    default: module.UserListPage,
+  })),
+);
 const ComingSoonPage = lazy(() =>
   import("../../shared/pages/ComingSoonPage/ComingSoonPage").then((module) => ({
     default: module.ComingSoonPage,
@@ -77,7 +82,8 @@ const upcomingNavigationItems = getNavigationLeaves().filter(
     item.path !== paths.inventoryProducts &&
     item.path !== paths.inventoryProductNew &&
     item.path !== paths.recipes &&
-    item.path !== paths.billing,
+    item.path !== paths.billing &&
+    item.path !== paths.administrationUsers,
 );
 
 export function AppRouter() {
@@ -107,7 +113,10 @@ export function AppRouter() {
               element={<ProductListPage />}
             />
             <Route path={paths.recipeNew} element={<CreateRecipePage />} />
-            <Route path="/recipes/:recipeId/edit" element={<EditRecipePage />} />
+            <Route
+              path="/recipes/:recipeId/edit"
+              element={<EditRecipePage />}
+            />
             <Route path={paths.recipes} element={<RecipeListPage />} />
             <Route path={paths.billing} element={<InvoiceListPage />} />
             <Route
@@ -121,6 +130,10 @@ export function AppRouter() {
             <Route
               path={paths.administration}
               element={<Navigate to={paths.administrationUsers} replace />}
+            />
+            <Route
+              path={paths.administrationUsers}
+              element={<UserListPage />}
             />
 
             {upcomingNavigationItems.map((item) => (
