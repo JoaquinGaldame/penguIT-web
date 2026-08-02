@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Alert,
@@ -12,6 +13,7 @@ import {
 } from "@mui/material";
 
 import { useAppDispatch, useAppSelector } from "../../../app/store/hooks";
+import { paths } from "../../../app/router/paths";
 import { useGetUserGroupsQuery, useGetUsersQuery } from "../api/UsersApi";
 import { UserGroupsTable } from "../components/UserGroupsTable";
 import { UsersEmptyState } from "../components/UsersEmptyState";
@@ -32,6 +34,7 @@ import { refreshUsers } from "../store/UserThunks";
 
 export function UserListPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const filters = useAppSelector((state) => state.users);
   const usersQuery = useGetUsersQuery();
   const groupsQuery = useGetUserGroupsQuery();
@@ -164,6 +167,7 @@ export function UserListPage() {
               activeFiltersCount={activeFiltersCount}
               onSearchChange={(value) => dispatch(setUsersSearch(value))}
               onFiltersOpen={() => dispatch(setUsersFiltersOpen(true))}
+              onAddUser={() => navigate(paths.administrationUserNew)}
               onViewChange={(view) => dispatch(setUsersView(view))}
             />
 

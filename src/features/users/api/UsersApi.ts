@@ -1,6 +1,8 @@
 import { baseApi } from "../../../app/api/baseApi";
 import { userGroupsMock, usersMock } from "../data/userMock";
 import type {
+  CreateUserRequest,
+  CreateUserResponse,
   GetUserGroupsResponse,
   GetUsersResponse,
 } from "../types/User.types";
@@ -42,8 +44,25 @@ export const usersApi = baseApi.injectEndpoints({
             ]
           : [{ type: "UserGroup", id: "LIST" }],
     }),
+
+    createUser: builder.mutation<CreateUserResponse, CreateUserRequest>({
+      query: (user) => ({
+        url: "/users",
+        method: "POST",
+        body: user,
+      }),
+
+      invalidatesTags: [
+        { type: "User", id: "LIST" },
+        { type: "UserGroup", id: "LIST" },
+      ],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetUserGroupsQuery, useGetUsersQuery } = usersApi;
+export const {
+  useCreateUserMutation,
+  useGetUserGroupsQuery,
+  useGetUsersQuery,
+} = usersApi;

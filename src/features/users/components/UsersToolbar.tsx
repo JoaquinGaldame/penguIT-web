@@ -17,6 +17,7 @@ interface UsersToolbarProps {
   view: UsersView;
   activeFiltersCount: number;
   onFiltersOpen: () => void;
+  onAddUser: () => void;
   onSearchChange: (value: string) => void;
   onViewChange: (view: UsersView) => void;
 }
@@ -26,6 +27,7 @@ export function UsersToolbar({
   view,
   activeFiltersCount,
   onFiltersOpen,
+  onAddUser,
   onSearchChange,
   onViewChange,
 }: UsersToolbarProps) {
@@ -67,20 +69,32 @@ export function UsersToolbar({
           }}
         />
 
-        <Badge
-          badgeContent={activeFiltersCount}
-          color="primary"
-          invisible={activeFiltersCount === 0}
-        >
-          <Button
-            color="inherit"
-            variant="outlined"
-            onClick={onFiltersOpen}
-            startIcon={<Icon icon="solar:filter-linear" width={20} />}
+        <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
+          <Badge
+            badgeContent={activeFiltersCount}
+            color="primary"
+            invisible={activeFiltersCount === 0}
           >
-            Filters
-          </Button>
-        </Badge>
+            <Button
+              color="inherit"
+              variant="outlined"
+              onClick={onFiltersOpen}
+              startIcon={<Icon icon="solar:filter-linear" width={20} />}
+            >
+              Filters
+            </Button>
+          </Badge>
+
+          {view === "users" && (
+            <Button
+              variant="contained"
+              onClick={onAddUser}
+              startIcon={<Icon icon="solar:user-plus-linear" width={20} />}
+            >
+              Agregar usuario
+            </Button>
+          )}
+        </Stack>
       </Stack>
 
       <Box sx={{ alignSelf: { xs: "stretch", md: "flex-end" } }}>

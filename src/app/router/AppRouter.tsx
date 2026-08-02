@@ -69,6 +69,11 @@ const UserListPage = lazy(() =>
     default: module.UserListPage,
   })),
 );
+const CreateUserPage = lazy(() =>
+  import("../../features/users/pages/CreateUserPage").then((module) => ({
+    default: module.CreateUserPage,
+  })),
+);
 const ComingSoonPage = lazy(() =>
   import("../../shared/pages/ComingSoonPage/ComingSoonPage").then((module) => ({
     default: module.ComingSoonPage,
@@ -83,7 +88,8 @@ const upcomingNavigationItems = getNavigationLeaves().filter(
     item.path !== paths.inventoryProductNew &&
     item.path !== paths.recipes &&
     item.path !== paths.billing &&
-    item.path !== paths.administrationUsers,
+    item.path !== paths.administrationUsers &&
+    item.path !== paths.administrationUserNew,
 );
 
 export function AppRouter() {
@@ -134,6 +140,10 @@ export function AppRouter() {
             <Route
               path={paths.administrationUsers}
               element={<UserListPage />}
+            />
+            <Route
+              path={paths.administrationUserNew}
+              element={<CreateUserPage />}
             />
 
             {upcomingNavigationItems.map((item) => (

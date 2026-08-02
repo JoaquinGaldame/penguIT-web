@@ -42,6 +42,23 @@ export interface GetUserGroupsResponse {
   groups: UserGroup[];
 }
 
+export interface CreateUserRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  role: UserRole;
+  groupIds: string[];
+  status: UserStatus;
+  sendInvitation: boolean;
+}
+
+export interface CreateUserResponse {
+  user: User;
+}
+
+export type UserCreationStatus = "idle" | "pending" | "succeeded" | "failed";
+
 export interface UsersState {
   search: string;
   view: UsersView;
@@ -50,6 +67,9 @@ export interface UsersState {
   status: UserStatus | "all";
   groupId: string | "all";
   groupStatus: UserGroupStatus | "all";
+  createStatus: UserCreationStatus;
+  createError: string | null;
+  createdUserId: string | null;
 }
 
 export const USER_ROLE_LABELS: Record<UserRole, string> = {

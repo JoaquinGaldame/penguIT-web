@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
+import { usersApi } from "../api/UsersApi";
 import type {
   UserGroupStatus,
   UserRole,
@@ -16,6 +17,9 @@ const initialState: UsersState = {
   status: "all",
   groupId: "all",
   groupStatus: "all",
+  createStatus: "idle",
+  createError: null,
+  createdUserId: null,
 };
 
 const usersSlice = createSlice({
@@ -58,10 +62,39 @@ const usersSlice = createSlice({
       state.groupId = "all";
       state.groupStatus = "all";
     },
+    resetUserCreation: (state) => {
+      state.createStatus = "idle";
+      state.createError = null;
+      state.createdUserId = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(usersApi.endpoints.createUser.matchPending, (state) => {
+        state.createStatus = "pending";
+        state.createError = null;
+        state.createdUserId = null;
+      })
+      .addMatcher(
+        usersApi.endpoints.createUser.matchFulfilled,
+        (state, action) => {
+          state.createStatus = "succeeded";
+          state.createdUserId = action.payload.user.id;
+        },
+      )
+      .addMatcher(
+        usersApi.endpoints.createUser.matchRejected,
+        (state, action) => {
+          state.createStatus = "failed";
+          state.createError =
+            action.error.message ?? "No se pudo crear el usuario.";
+        },
+      );
   },
 });
 
 export const {
+  resetUserCreation,
   resetUsersFilters,
   setUserGroupStatus,
   setUsersFiltersOpen,
