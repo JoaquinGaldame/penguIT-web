@@ -3,8 +3,9 @@ import { useState } from "react";
 import { Box, Breadcrumbs, Link, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
+import { getApiErrorMessage } from "../../../app/api/getApiErrorMessage";
 import { paths } from "../../../app/router/paths";
-import { useCreateInvoiceMutation} from "../api/InvoicesApi";
+import { useCreateInvoiceMutation } from "../api/InvoicesApi";
 import { useGetCustomersQuery } from "../../clients/api/ClientsApi";
 import { InvoiceForm } from "../components/InvoiceForm";
 import type { InvoiceFormValues } from "../schemas/invoiceSchemas";
@@ -14,23 +15,6 @@ import type {
 } from "../types/Invoice.types";
 
 type CreateInvoiceStatus = Extract<InvoiceStatus, "draft" | "sent">;
-
-function getCreateInvoiceErrorMessage(error: unknown): string {
-  if (typeof error === "object" && error !== null && "data" in error) {
-    const data = error.data;
-
-    if (
-      typeof data === "object" &&
-      data !== null &&
-      "message" in data &&
-      typeof data.message === "string"
-    ) {
-      return data.message;
-    }
-  }
-
-  return "No pudimos crear la factura. Intentá nuevamente.";
-}
 
 export function CreateInvoicePage() {
   const navigate = useNavigate();
@@ -65,7 +49,12 @@ export function CreateInvoicePage() {
         replace: true,
       });
     } catch (error) {
-      setSubmitError(getCreateInvoiceErrorMessage(error));
+      setSubmitError(
+        getApiErrorMessage(
+          error,
+          "No pudimos crear la factura. Intentá nuevamente.",
+        ),
+      );
     }
   };
 

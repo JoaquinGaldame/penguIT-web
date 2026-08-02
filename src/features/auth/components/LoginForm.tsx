@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Icon } from '@iconify/react';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Icon } from "@iconify/react";
 import {
   Alert,
   Button,
@@ -12,38 +12,15 @@ import {
   Link,
   Stack,
   TextField,
-} from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
+} from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
 
-import { useAppDispatch } from '../../../app/store/hooks';
-import { AppLoadingScreen } from '../../../shared/components/AppLoadingScreen';
-import { useLoginMutation } from '../api/AuthApi';
-import {
-  loginSchema,
-  type LoginFormValues,
-} from '../schemas/loginSchema';
-import { setSession } from '../store/AuthSlice';
-
-function getLoginErrorMessage(error: unknown): string {
-  if (
-    typeof error === 'object' &&
-    error !== null &&
-    'data' in error
-  ) {
-    const data = error.data;
-
-    if (
-      typeof data === 'object' &&
-      data !== null &&
-      'message' in data &&
-      typeof data.message === 'string'
-    ) {
-      return data.message;
-    }
-  }
-
-  return 'No pudimos iniciar sesión. Intentá nuevamente.';
-}
+import { getApiErrorMessage } from "../../../app/api/getApiErrorMessage";
+import { useAppDispatch } from "../../../app/store/hooks";
+import { AppLoadingScreen } from "../../../shared/components/AppLoadingScreen";
+import { useLoginMutation } from "../api/AuthApi";
+import { loginSchema, type LoginFormValues } from "../schemas/loginSchema";
+import { setSession } from "../store/AuthSlice";
 
 export function LoginForm() {
   const dispatch = useAppDispatch();
@@ -52,9 +29,7 @@ export function LoginForm() {
 
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(
-    null,
-  );
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     control,
@@ -63,8 +38,8 @@ export function LoginForm() {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       rememberMe: false,
     },
   });
@@ -79,7 +54,12 @@ export function LoginForm() {
       dispatch(setSession(response));
     } catch (error) {
       setIsTransitioning(false);
-      setSubmitError(getLoginErrorMessage(error));
+      setSubmitError(
+        getApiErrorMessage(
+          error,
+          "No pudimos iniciar sesión. Intentá nuevamente.",
+        ),
+      );
     }
   };
 
@@ -93,11 +73,7 @@ export function LoginForm() {
         noValidate
         onSubmit={handleSubmit(onSubmit)}
       >
-        {submitError && (
-          <Alert severity="error">
-            {submitError}
-          </Alert>
-        )}
+        {submitError && <Alert severity="error">{submitError}</Alert>}
 
         <Controller
           name="email"
@@ -123,7 +99,7 @@ export function LoginForm() {
             <TextField
               {...field}
               label="Contraseña"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               autoComplete="current-password"
               error={Boolean(errors.password)}
               helperText={errors.password?.message}
@@ -137,18 +113,16 @@ export function LoginForm() {
                         type="button"
                         aria-label={
                           showPassword
-                            ? 'Ocultar contraseña'
-                            : 'Mostrar contraseña'
+                            ? "Ocultar contraseña"
+                            : "Mostrar contraseña"
                         }
-                        onClick={() =>
-                          setShowPassword((current) => !current)
-                        }
+                        onClick={() => setShowPassword((current) => !current)}
                       >
                         <Icon
                           icon={
                             showPassword
-                              ? 'solar:eye-closed-linear'
-                              : 'solar:eye-linear'
+                              ? "solar:eye-closed-linear"
+                              : "solar:eye-linear"
                           }
                           width={22}
                         />
@@ -164,7 +138,7 @@ export function LoginForm() {
         <Stack
           component="div"
           direction="row"
-          sx={{ alignItems: 'center', justifyContent: 'space-between' }}
+          sx={{ alignItems: "center", justifyContent: "space-between" }}
           spacing={2}
         >
           <Controller
@@ -200,7 +174,7 @@ export function LoginForm() {
           size="large"
           disabled={isLoginPending}
         >
-          {isLoginPending ? 'Ingresando…' : 'Iniciar sesión'}
+          {isLoginPending ? "Ingresando…" : "Iniciar sesión"}
         </Button>
       </Stack>
 

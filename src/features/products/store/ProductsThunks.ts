@@ -1,31 +1,15 @@
-import type { AppThunk } from '../../../app/store/store';
-import { productsApi } from '../api/ProductsApi';
-import { resetProductsFilters } from './ProductsSlice';
+import type { AppThunk } from "../../../app/store/store";
+import { productsApi } from "../api/ProductsApi";
+import { resetProductsFilters } from "./ProductsSlice";
 
-export const refreshProducts =
-  (): AppThunk =>
-  (dispatch) => {
-    dispatch(
-      productsApi.util.invalidateTags([
-        {
-          type: 'Product',
-          id: 'LIST',
-        },
-      ]),
-    );
-  };
+const productsListTag = [{ type: "Product" as const, id: "LIST" }];
 
-export const resetProductsWorkspace =
-  (): AppThunk =>
-  (dispatch) => {
-    dispatch(resetProductsFilters());
+export const refreshProducts = (): AppThunk => (dispatch) => {
+  dispatch(productsApi.util.invalidateTags(productsListTag));
+};
 
-    dispatch(
-      productsApi.util.invalidateTags([
-        {
-          type: 'Product',
-          id: 'LIST',
-        },
-      ]),
-    );
-  };
+export const resetProductsWorkspace = (): AppThunk => (dispatch) => {
+  dispatch(resetProductsFilters());
+
+  dispatch(productsApi.util.invalidateTags(productsListTag));
+};

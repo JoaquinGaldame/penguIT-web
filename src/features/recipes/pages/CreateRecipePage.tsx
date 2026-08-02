@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { Box, Breadcrumbs, Link, Stack, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { Box, Breadcrumbs, Link, Stack, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-import { paths } from '../../../app/router/paths';
-import { useCreateRecipeMutation } from '../api/RecipesApi';
-import { RecipeForm } from '../components/RecipeForm';
-import type { RecipeFormValues } from '../schemas/recipeSchema';
-import { getRecipeErrorMessage } from '../utils/recipeErrors';
+import { getApiErrorMessage } from "../../../app/api/getApiErrorMessage";
+import { paths } from "../../../app/router/paths";
+import { useCreateRecipeMutation } from "../api/RecipesApi";
+import { RecipeForm } from "../components/RecipeForm";
+import type { RecipeFormValues } from "../schemas/recipeSchema";
 
 export function CreateRecipePage() {
   const navigate = useNavigate();
@@ -22,7 +22,12 @@ export function CreateRecipePage() {
       await createRecipe(values).unwrap();
       navigate(paths.recipes, { replace: true });
     } catch (error) {
-      setSubmitError(getRecipeErrorMessage(error, 'No pudimos crear la receta. Intentá nuevamente.'));
+      setSubmitError(
+        getApiErrorMessage(
+          error,
+          "No pudimos crear la receta. Intentá nuevamente.",
+        ),
+      );
     }
   };
 
@@ -30,10 +35,14 @@ export function CreateRecipePage() {
     <Stack spacing={3}>
       <Box>
         <Breadcrumbs sx={{ mb: 1 }}>
-          <Link component="button" onClick={returnToRecipes}>Recetas</Link>
+          <Link component="button" onClick={returnToRecipes}>
+            Recetas
+          </Link>
           <Typography color="text.primary">Nueva receta</Typography>
         </Breadcrumbs>
-        <Typography component="h1" variant="h4">Nueva receta</Typography>
+        <Typography component="h1" variant="h4">
+          Nueva receta
+        </Typography>
         <Typography color="text.secondary" sx={{ mt: 0.5 }}>
           Definí el rendimiento, los ingredientes y el costo de producción.
         </Typography>

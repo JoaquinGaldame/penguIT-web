@@ -1,12 +1,8 @@
-import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-
+import { baseApi } from "../../../app/api/baseApi";
 import { ordersMock } from "../data/ordersMock";
 import type { GetOrdersResponse } from "../types/Orders.types";
 
-export const ordersApi = createApi({
-  reducerPath: "ordersApi",
-  baseQuery: fakeBaseQuery(),
-  tagTypes: ["Order"],
+export const ordersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getOrders: builder.query<GetOrdersResponse, void>({
       async queryFn() {
@@ -32,6 +28,7 @@ export const ordersApi = createApi({
           : [{ type: "Order", id: "LIST" }],
     }),
   }),
+  overrideExisting: false,
 });
 
 export const { useGetOrdersQuery } = ordersApi;

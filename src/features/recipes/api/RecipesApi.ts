@@ -1,8 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-import type { RootState } from '../../../app/store/store';
-import { productsMock } from '../../products/data/productsMock';
-import { recipeIngredientsMock, recipesMock } from '../data/recipesMock';
+import { baseApi } from "../../../app/api/baseApi";
+import { productsMock } from "../../products/data/productsMock";
+import { recipeIngredientsMock, recipesMock } from "../data/recipesMock";
 import type {
   GetRecipeIngredientsResponse,
   GetRecipeResponse,
@@ -11,7 +9,7 @@ import type {
   RecipeListItem,
   RecipeMutationResponse,
   RecipeUpsertRequest,
-} from '../types/Recipe.types';
+} from "../types/Recipe.types";
 
 let recipeDatabase = recipesMock.map((recipe) => ({
   ...recipe,
@@ -39,10 +37,7 @@ function enrichRecipe(recipe: Recipe): RecipeListItem | undefined {
   };
 }
 
-function buildRecipe(
-  values: RecipeUpsertRequest,
-  existing?: Recipe,
-): Recipe {
+function buildRecipe(values: RecipeUpsertRequest, existing?: Recipe): Recipe {
   const now = new Date().toISOString();
   const { image, ...recipeValues } = values;
 
@@ -58,7 +53,7 @@ function buildRecipe(
       return {
         ...ingredient,
         id: crypto.randomUUID(),
-        name: inventoryItem?.name ?? 'Insumo no disponible',
+        name: inventoryItem?.name ?? "Insumo no disponible",
       };
     }),
     steps: values.steps.map((step) => ({
@@ -70,23 +65,7 @@ function buildRecipe(
   };
 }
 
-export const recipesApi = createApi({
-  reducerPath: 'recipesApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
-    prepareHeaders: (headers, { getState }) => {
-      const state = getState() as RootState;
-      const token = state.auth.accessToken;
-
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
-      }
-
-      headers.set('accept', 'application/json');
-      return headers;
-    },
-  }),
-  tagTypes: ['Recipe'],
+export const recipesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getRecipes: builder.query<GetRecipesResponse, void>({
       async queryFn() {
@@ -96,7 +75,9 @@ export const recipesApi = createApi({
           data: {
             recipes: recipeDatabase
               .map(enrichRecipe)
-              .filter((recipe): recipe is RecipeListItem => recipe !== undefined),
+              .filter(
+                (recipe): recipe is RecipeListItem => recipe !== undefined,
+              ),
           },
         };
       },
@@ -104,12 +85,12 @@ export const recipesApi = createApi({
         result
           ? [
               ...result.recipes.map((recipe) => ({
-                type: 'Recipe' as const,
+                type: "Recipe" as const,
                 id: recipe.id,
               })),
-              { type: 'Recipe', id: 'LIST' },
+              { type: "Recipe", id: "LIST" },
             ]
-          : [{ type: 'Recipe', id: 'LIST' }],
+          : [{ type: "Recipe", id: "LIST" }],
     }),
     getRecipe: builder.query<GetRecipeResponse, string>({
       async queryFn(recipeId) {
@@ -120,7 +101,7 @@ export const recipesApi = createApi({
           return {
             error: {
               status: 404,
-              data: { message: 'No encontramos la receta solicitada.' },
+              data: { message: "No encontramos la receta solicitada." },
             },
           };
         }
@@ -128,7 +109,7 @@ export const recipesApi = createApi({
         return { data: { recipe } };
       },
       providesTags: (_result, _error, recipeId) => [
-        { type: 'Recipe', id: recipeId },
+        { type: "Recipe", id: recipeId },
       ],
     }),
     getRecipeIngredients: builder.query<GetRecipeIngredientsResponse, void>({
@@ -137,15 +118,17 @@ export const recipesApi = createApi({
         return { data: { ingredients: recipeIngredientsMock } };
       },
     }),
-    createRecipe: builder.mutation<RecipeMutationResponse, RecipeUpsertRequest>({
-      async queryFn(values) {
-        await waitForMock();
-        const recipe = buildRecipe(values);
-        recipeDatabase = [recipe, ...recipeDatabase];
-        return { data: { recipe } };
+    createRecipe: builder.mutation<RecipeMutationResponse, RecipeUpsertRequest>(
+      {
+        async queryFn(values) {
+          await waitForMock();
+          const recipe = buildRecipe(values);
+          recipeDatabase = [recipe, ...recipeDatabase];
+          return { data: { recipe } };
+        },
+        invalidatesTags: [{ type: "Recipe", id: "LIST" }],
       },
-      invalidatesTags: [{ type: 'Recipe', id: 'LIST' }],
-    }),
+    ),
     updateRecipe: builder.mutation<
       RecipeMutationResponse,
       { recipeId: string; values: RecipeUpsertRequest }
@@ -158,7 +141,7 @@ export const recipesApi = createApi({
           return {
             error: {
               status: 404,
-              data: { message: 'No encontramos la receta solicitada.' },
+              data: { message: "No encontramos la receta solicitada." },
             },
           };
         }
@@ -170,11 +153,12 @@ export const recipesApi = createApi({
         return { data: { recipe } };
       },
       invalidatesTags: (_result, _error, { recipeId }) => [
-        { type: 'Recipe', id: recipeId },
-        { type: 'Recipe', id: 'LIST' },
+        { type: "Recipe", id: recipeId },
+        { type: "Recipe", id: "LIST" },
       ],
     }),
   }),
+  overrideExisting: false,
 });
 
 export const {

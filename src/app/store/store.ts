@@ -2,20 +2,16 @@ import {
   configureStore,
   type ThunkAction,
   type UnknownAction,
-} from '@reduxjs/toolkit';
+} from "@reduxjs/toolkit";
 
-import { authApi } from '../../features/auth/api/AuthApi';
-import { authReducer } from '../../features/auth/store/AuthSlice';
-import { ordersApi } from '../../features/orders/api/OrdersApi';
-import { ordersReducer } from '../../features/orders/store/OrdersSlice';
-import { invoicesApi } from "../../features/invoice/api/InvoicesApi";
+import { authReducer } from "../../features/auth/store/AuthSlice";
+import { ordersReducer } from "../../features/orders/store/OrdersSlice";
 import { invoicesReducer } from "../../features/invoice/store/InvoicesSlice";
-import { productsApi } from '../../features/products/api/ProductsApi';
-import { productsReducer } from '../../features/products/store/ProductsSlice';
-import { clientsApi } from '../../features/clients/api/ClientsApi';
-import { clientsReducer } from '../../features/clients/store/ClientsSlice';
-import { recipesApi } from '../../features/recipes/api/RecipesApi';
-import { recipesReducer } from '../../features/recipes/store/RecipesSlice';
+import { productsReducer } from "../../features/products/store/ProductsSlice";
+import { clientsReducer } from "../../features/clients/store/ClientsSlice";
+import { recipesReducer } from "../../features/recipes/store/RecipesSlice";
+import { usersReducer } from "../../features/users/store/UserSlice";
+import { baseApi } from "../api/baseApi";
 
 export const store = configureStore({
   reducer: {
@@ -25,23 +21,12 @@ export const store = configureStore({
     products: productsReducer,
     clients: clientsReducer,
     recipes: recipesReducer,
-    [authApi.reducerPath]: authApi.reducer,
-    [ordersApi.reducerPath]: ordersApi.reducer,
-    [invoicesApi.reducerPath]: invoicesApi.reducer,
-    [productsApi.reducerPath]: productsApi.reducer,
-    [clientsApi.reducerPath]: clientsApi.reducer,
-    [recipesApi.reducerPath]: recipesApi.reducer,
+    users: usersReducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      authApi.middleware,
-      ordersApi.middleware,
-      invoicesApi.middleware,
-      productsApi.middleware,
-      clientsApi.middleware,
-      recipesApi.middleware,
-    ),
+    getDefaultMiddleware().concat(baseApi.middleware),
 
   devTools: import.meta.env.DEV,
 });

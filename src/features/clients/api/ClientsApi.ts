@@ -1,31 +1,8 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-import type { RootState } from "../../../app/store/store";
+import { baseApi } from "../../../app/api/baseApi";
 import { customersMock } from "../data/CustomersMock";
 import type { GetCustomersResponse } from "../types/Customer.types";
 
-export const clientsApi = createApi({
-  reducerPath: "clientsApi",
-
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
-
-    prepareHeaders: (headers, { getState }) => {
-      const state = getState() as RootState;
-      const token = state.auth.accessToken;
-
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-
-      headers.set("accept", "application/json");
-
-      return headers;
-    },
-  }),
-
-  tagTypes: ["Customer"],
-
+export const clientsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getCustomers: builder.query<GetCustomersResponse, void>({
       async queryFn() {
@@ -52,6 +29,7 @@ export const clientsApi = createApi({
           : [{ type: "Customer", id: "LIST" }],
     }),
   }),
+  overrideExisting: false,
 });
 
 export const { useGetCustomersQuery } = clientsApi;

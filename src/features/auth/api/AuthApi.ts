@@ -1,16 +1,10 @@
-import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseApi } from "../../../app/api/baseApi";
+import type { LoginRequest, LoginResponse } from "../types/Auth.types";
 
-import type {
-  LoginRequest,
-  LoginResponse,
-} from '../types/Auth.types';
+const DEMO_EMAIL = "demo@penguintech.com";
+const DEMO_PASSWORD = "Penguin123!";
 
-const DEMO_EMAIL = 'demo@penguintech.com';
-const DEMO_PASSWORD = 'Penguin123!';
-
-export const authApi = createApi({
-  reducerPath: 'authApi',
-  baseQuery: fakeBaseQuery(),
+export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
       async queryFn(credentials) {
@@ -26,7 +20,8 @@ export const authApi = createApi({
             error: {
               status: 401,
               data: {
-                message: 'El correo electrónico o la contraseña son incorrectos.',
+                message:
+                  "El correo electrónico o la contraseña son incorrectos.",
               },
             },
           };
@@ -34,18 +29,19 @@ export const authApi = createApi({
 
         return {
           data: {
-            accessToken: 'penguintech-development-token',
+            accessToken: "penguintech-development-token",
             user: {
-              id: 'user-demo',
-              name: 'Administrador',
+              id: "user-demo",
+              name: "Administrador",
               email: DEMO_EMAIL,
-              role: 'Administrador',
+              role: "Administrador",
             },
           },
         };
       },
     }),
   }),
+  overrideExisting: false,
 });
 
 export const { useLoginMutation } = authApi;

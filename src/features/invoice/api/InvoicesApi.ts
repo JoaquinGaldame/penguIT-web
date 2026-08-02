@@ -1,6 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-import type { RootState } from "../../../app/store/store";
+import { baseApi } from "../../../app/api/baseApi";
 import { invoicesMock } from "../data/InvoicesMock";
 import type {
   GetInvoicesParams,
@@ -8,31 +6,10 @@ import type {
   GetInvoiceResponse,
   InvoiceStatusCounts,
   CreateInvoiceRequest,
-  CreateInvoiceResponse
+  CreateInvoiceResponse,
 } from "../types/Invoice.types";
 
-export const invoicesApi = createApi({
-  reducerPath: "invoicesApi",
-
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
-
-    prepareHeaders: (headers, { getState }) => {
-      const state = getState() as RootState;
-      const token = state.auth.accessToken;
-
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-
-      headers.set("accept", "application/json");
-
-      return headers;
-    },
-  }),
-
-  tagTypes: ["Invoice"],
-
+export const invoicesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getInvoices: builder.query<GetInvoicesResponse, GetInvoicesParams>({
       async queryFn({ limit, offset, search = "", status }) {
@@ -56,8 +33,9 @@ export const invoicesApi = createApi({
             .length,
           sent: searchedInvoices.filter((invoice) => invoice.status === "sent")
             .length,
-          draft: searchedInvoices.filter((invoice) => invoice.status === "draft")
-            .length,
+          draft: searchedInvoices.filter(
+            (invoice) => invoice.status === "draft",
+          ).length,
         };
         const filteredInvoices = status
           ? searchedInvoices.filter((invoice) => invoice.status === status)
@@ -110,7 +88,10 @@ export const invoicesApi = createApi({
         { type: "Invoice", id: invoiceId },
       ],
     }),
-    createInvoice: builder.mutation<CreateInvoiceResponse, CreateInvoiceRequest>({
+    createInvoice: builder.mutation<
+      CreateInvoiceResponse,
+      CreateInvoiceRequest
+    >({
       query: (invoice) => ({
         url: "/invoices",
         method: "POST",
@@ -120,9 +101,11 @@ export const invoicesApi = createApi({
       invalidatesTags: [{ type: "Invoice", id: "LIST" }],
     }),
   }),
+  overrideExisting: false,
 });
 
-export const { 
-  useGetInvoicesQuery, 
+export const {
+  useGetInvoicesQuery,
   useGetInvoiceQuery,
-  useCreateInvoiceMutation } = invoicesApi;
+  useCreateInvoiceMutation,
+} = invoicesApi;
