@@ -54,6 +54,11 @@ const RecipeListPage = lazy(() =>
     default: module.RecipeListPage,
   })),
 );
+const PurchaseListPage = lazy(() =>
+  import("../../features/purchases/pages/PurchaseListPage").then((module) => ({
+    default: module.PurchaseListPage,
+  })),
+);
 const CreateRecipePage = lazy(() =>
   import("../../features/recipes/pages/CreateRecipePage").then((module) => ({
     default: module.CreateRecipePage,
@@ -92,6 +97,7 @@ const upcomingNavigationItems = getNavigationLeaves().filter(
     item.path !== paths.inventoryProducts &&
     item.path !== paths.inventoryProductNew &&
     item.path !== paths.recipes &&
+    item.path !== paths.purchases &&
     item.path !== paths.billing &&
     item.path !== paths.administrationUsers &&
     item.path !== paths.administrationUserNew &&
@@ -130,6 +136,27 @@ export function AppRouter() {
               element={<EditRecipePage />}
             />
             <Route path={paths.recipes} element={<RecipeListPage />} />
+            <Route path={paths.purchases} element={<PurchaseListPage />} />
+            <Route
+              path={paths.purchaseNew}
+              element={
+                <ComingSoonPage
+                  title="Nueva compra"
+                  description="El registro de nuevas compras estará disponible próximamente."
+                  icon="solar:cart-plus-linear"
+                />
+              }
+            />
+            <Route
+              path={`${paths.purchases}/:purchaseId`}
+              element={
+                <ComingSoonPage
+                  title="Detalle de compra"
+                  description="El detalle y seguimiento de la compra estará disponible próximamente."
+                  icon="solar:document-text-linear"
+                />
+              }
+            />
             <Route path={paths.billing} element={<InvoiceListPage />} />
             <Route
               path={paths.billingInvoiceNew}

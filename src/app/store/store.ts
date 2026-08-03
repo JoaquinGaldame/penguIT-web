@@ -8,6 +8,8 @@ import { authReducer } from "../../features/auth/store/AuthSlice";
 import { ordersReducer } from "../../features/orders/store/OrdersSlice";
 import { invoicesReducer } from "../../features/invoice/store/InvoicesSlice";
 import { productsReducer } from "../../features/products/store/ProductsSlice";
+import { purchasesApi } from "../../features/purchases/api/PurchasesApi";
+import { purchasesReducer } from "../../features/purchases/store/PurchasesSlice";
 import { clientsReducer } from "../../features/clients/store/ClientsSlice";
 import { recipesReducer } from "../../features/recipes/store/RecipesSlice";
 import { systemSettingsReducer } from "../../features/system-settings/store/SystemSettingsSlice";
@@ -20,15 +22,17 @@ export const store = configureStore({
     orders: ordersReducer,
     invoices: invoicesReducer,
     products: productsReducer,
+    purchases: purchasesReducer,
     clients: clientsReducer,
     recipes: recipesReducer,
     systemSettings: systemSettingsReducer,
     users: usersReducer,
     [baseApi.reducerPath]: baseApi.reducer,
+    [purchasesApi.reducerPath]: purchasesApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApi.middleware),
+    getDefaultMiddleware().concat(baseApi.middleware, purchasesApi.middleware),
 
   devTools: import.meta.env.DEV,
 });
