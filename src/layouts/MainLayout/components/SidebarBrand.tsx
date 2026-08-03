@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import { appConfig } from '../../../app/config/appConfig';
 import { paths } from '../../../app/router/paths';
 import compactLogo from '../../../assets/logos/Logotipo.png';
 import expandedLogo from '../../../assets/logos/penguintech-logotipo.png';
@@ -29,7 +30,7 @@ export function SidebarBrand({ expanded, onNavigate }: SidebarBrandProps) {
       <Box
         component="img"
         src={expandedLogo}
-        alt="PenguinTech"
+        alt={appConfig.name}
         sx={{
           position: 'absolute',
           top: '50%',

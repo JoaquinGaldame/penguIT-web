@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 
+import { appConfig } from "../../../app/config/appConfig";
 import { navigationConfig } from "../../../app/router/navigationConfig";
 import { AppIcon } from "../../../shared/components/AppIcon";
 import { useSidebarNavigation } from "../hooks/useSidebarNavigation";
@@ -122,11 +123,11 @@ export function SidebarContent({
               }}
             >
               <Typography variant="caption" color="text.secondary">
-                PenguinTech
+                {appConfig.name}
               </Typography>
 
               <Typography variant="body2" sx={{ fontWeight: 700 }}>
-                Gestión gastronómica
+                {appConfig.description}
               </Typography>
             </Box>
 

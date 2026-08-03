@@ -1,8 +1,9 @@
 import { baseApi } from "../../../app/api/baseApi";
+import { appConfig } from "../../../app/config/appConfig";
 import type { LoginRequest, LoginResponse } from "../types/Auth.types";
 
-const DEMO_EMAIL = "demo@penguintech.com";
-const DEMO_PASSWORD = "Penguin123!";
+const { email: DEMO_EMAIL, password: DEMO_PASSWORD } =
+  appConfig.demoCredentials;
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -29,7 +30,7 @@ export const authApi = baseApi.injectEndpoints({
 
         return {
           data: {
-            accessToken: "penguintech-development-token",
+            accessToken: "penguit-development-token",
             user: {
               id: "user-demo",
               name: "Administrador",

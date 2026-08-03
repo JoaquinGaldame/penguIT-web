@@ -1,11 +1,17 @@
 import { useCallback, useState } from 'react';
 
-const SIDEBAR_STORAGE_KEY = 'penguintech-sidebar-collapsed';
+const SIDEBAR_STORAGE_KEY = 'penguit-sidebar-collapsed';
+const LEGACY_SIDEBAR_STORAGE_KEY = 'penguintech-sidebar-collapsed';
 
 function getInitialCollapsedState() {
-  const storedValue = window.localStorage.getItem(SIDEBAR_STORAGE_KEY);
+  const storedValue =
+    window.localStorage.getItem(SIDEBAR_STORAGE_KEY) ??
+    window.localStorage.getItem(LEGACY_SIDEBAR_STORAGE_KEY);
 
   if (storedValue !== null) {
+    window.localStorage.setItem(SIDEBAR_STORAGE_KEY, storedValue);
+    window.localStorage.removeItem(LEGACY_SIDEBAR_STORAGE_KEY);
+
     return storedValue === 'true';
   }
 

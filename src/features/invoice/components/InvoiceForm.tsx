@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 
+import { appConfig } from "../../../app/config/appConfig";
 import { AppIcon } from "../../../shared/components/AppIcon";
 // Schemas and Formatters
 import {
@@ -174,7 +175,7 @@ export function InvoiceForm({
               <Box>
                 <Typography variant="h6">Nueva factura</Typography>
                 <Typography color="text.secondary" variant="body2">
-                  PenguinTech · Comprobante comercial
+                  {appConfig.name} · Comprobante comercial
                 </Typography>
               </Box>
             </Stack>

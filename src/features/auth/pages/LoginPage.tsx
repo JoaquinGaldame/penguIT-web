@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material';
 
+import { appConfig } from '../../../app/config/appConfig';
 import { BrandLogo } from '../../../shared/components/BrandLogo';
 import { LoginForm } from '../components/LoginForm';
 
@@ -36,18 +37,11 @@ export function LoginPage() {
       </Box>
 
       <Stack spacing={1}>
-        <Typography
-          component="h1"
-          variant="h4"
-          color="text.primary"
-        >
+        <Typography component="h1" variant="h4" color="text.primary">
           Bienvenido
         </Typography>
 
-        <Typography
-          variant="body1"
-          color="text.secondary"
-        >
+        <Typography variant="body1" color="text.secondary">
           Ingresá tus datos para acceder al panel de administración.
         </Typography>
       </Stack>
@@ -64,7 +58,8 @@ export function LoginPage() {
             backgroundColor: 'background.default',
           }}
         >
-          Acceso de desarrollo: demo@penguintech.com / Penguin123!
+          Acceso de desarrollo: {appConfig.demoCredentials.email} /{' '}
+          {appConfig.demoCredentials.password}
         </Typography>
       )}
     </Stack>

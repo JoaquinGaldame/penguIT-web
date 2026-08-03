@@ -1,11 +1,11 @@
 <div align="center">
   <img
     src="./src/assets/logos/penguintech-logotipo.png"
-    alt="PenguinTech"
+    alt="PenguIT"
     width="420"
   />
 
-  <h1>PenguinTech Web</h1>
+  <h1>PenguIT Web</h1>
 
   <p>
     Plataforma web de gestión gastronómica para centralizar la operación,
@@ -21,7 +21,7 @@
 
 ## Descripción
 
-PenguinTech Web es la aplicación frontend de un sistema integral de gestión
+PenguIT Web es la aplicación frontend de un sistema integral de gestión
 gastronómica. Su propósito es reunir en una experiencia consistente los
 procesos centrales de un establecimiento: pedidos, inventario, recetas,
 compras, facturación y administración operativa.
@@ -69,7 +69,7 @@ src/
 │   ├── store/            # Configuración y hooks tipados de Redux
 │   └── theme/            # Identidad visual y personalización de Material UI
 ├── assets/
-│   └── logos/            # Recursos gráficos de PenguinTech
+│   └── logos/            # Recursos gráficos de PenguIT
 ├── features/
 │   ├── auth/
 │   │   ├── api/          # Servicio de autenticación
@@ -140,8 +140,8 @@ pnpm lint
 El entorno de desarrollo incluye las siguientes credenciales:
 
 ```text
-Correo:     demo@penguintech.com
-Contraseña: Penguin123!
+Correo:     demo@penguit.com
+Contraseña: PenguIT123!
 ```
 
 Estas credenciales pertenecen exclusivamente al flujo simulado incluido en el

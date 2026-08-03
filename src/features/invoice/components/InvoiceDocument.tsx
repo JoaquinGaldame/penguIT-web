@@ -12,7 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 
-import penguinTechLogo from "../../../assets/logos/penguintech-logotipo.png";
+import { appConfig } from "../../../app/config/appConfig";
+import appLogo from "../../../assets/logos/penguintech-logotipo.png";
 import type { Invoice } from "../types/Invoice.types";
 import {
   formatInvoiceCurrency,
@@ -73,8 +74,8 @@ export function InvoiceDocument({ invoice }: InvoiceDocumentProps) {
           <Box>
             <Box
               component="img"
-              src={penguinTechLogo}
-              alt="PenguinTech"
+              src={appLogo}
+              alt={appConfig.name}
               sx={{
                 display: "block",
                 height: 60,
@@ -126,7 +127,7 @@ export function InvoiceDocument({ invoice }: InvoiceDocumentProps) {
         >
           <AddressBlock title="Emitida por">
             <Typography variant="body2" sx={{ fontWeight: 800 }}>
-              PenguinTech Gastronomía
+              {appConfig.name} Gastronomía
             </Typography>
             <Typography color="text.secondary" variant="body2">
               CUIT 30-71234567-8
@@ -297,7 +298,7 @@ export function InvoiceDocument({ invoice }: InvoiceDocumentProps) {
             Gracias por elegirnos.
           </Typography>
           <Typography color="text.secondary" variant="caption">
-            Consultas: +54 11 4333-6002 · facturacion@penguintech.com
+            Consultas: +54 11 4333-6002 · facturacion@penguit.com
           </Typography>
         </Box>
       </Box>

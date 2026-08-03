@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
+import { appConfig } from "../../../app/config/appConfig";
 import { findNavigationItem } from "../../../app/router/navigationConfig";
 import { AppIcon } from "../../../shared/components/AppIcon";
 import {
@@ -79,7 +80,7 @@ export function Header({
 
         <Box sx={{ minWidth: 0 }}>
           <Typography variant="h6" color="text.primary" noWrap>
-            {currentItem?.label ?? "PenguinTech"}
+            {currentItem?.label ?? appConfig.name}
           </Typography>
 
           <Typography
@@ -88,7 +89,7 @@ export function Header({
             noWrap
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            {currentItem?.description ?? "Gestión gastronómica"}
+            {currentItem?.description ?? appConfig.description}
           </Typography>
         </Box>
 
